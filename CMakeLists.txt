@@ -33,6 +33,8 @@ file(GLOB INCLUDES "${CMAKE_SOURCE_DIR}/include/*.h")
 source_group(parser FILES
 	${CMAKE_SOURCE_DIR}/src/parser/parser.y
 	${CMAKE_SOURCE_DIR}/src/parser/lexer.l
+    ${FLEX_FlexOutput_OUTPUTS}
+	${BISON_BisonOutput_OUTPUTS}
 )
 
 source_group(src FILES ${SOURCES})
