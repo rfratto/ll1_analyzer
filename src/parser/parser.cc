@@ -422,7 +422,7 @@ static const yytype_int8 yyrhs[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    36,    36,    40,    41,    45,    49,    50,    55,    56,
-      60,    61,    65,    75
+      60,    61,    65,    69
 };
 #endif
 
@@ -1335,18 +1335,12 @@ yyreduce:
         case 12:
 #line 66 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     {
-		auto nonterm = grammar->getSymtab()->getNonterminal((yyvsp[(1) - (1)].str));
-		if (nonterm == nullptr)
-		{
-			std::stringstream ss;
-			ss << "Usage of non-declared nonterminal " << (yyvsp[(1) - (1)].str);
-			yyerror(grammar, ss.str().c_str());
-		}
+		grammar->getSymtab()->addNonterminal((yyvsp[(1) - (1)].str));
 	;}
     break;
 
   case 13:
-#line 76 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 70 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     {
 		grammar->getSymtab()->addTerminal((yyvsp[(1) - (1)].str));
 	;}
@@ -1354,7 +1348,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1358 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
+#line 1352 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1568,6 +1562,6 @@ yyreturn:
 }
 
 
-#line 81 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 75 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
 
 

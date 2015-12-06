@@ -64,13 +64,7 @@ rule_composition
 component
 	: NONTERMINAL
 	{
-		auto nonterm = grammar->getSymtab()->getNonterminal($1);
-		if (nonterm == nullptr)
-		{
-			std::stringstream ss;
-			ss << "Usage of non-declared nonterminal " << $1;
-			yyerror(grammar, ss.str().c_str());
-		}
+		grammar->getSymtab()->addNonterminal($1);
 	}
 	| TERMINAL
 	{
