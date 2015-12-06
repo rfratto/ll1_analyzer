@@ -18,7 +18,7 @@ ll1_analyzer makes some assumptions about the input grammar:
 
 - All nonterminals are all lowercase and start with an alphabetic character,
 with all following characters being either alphanumeric, an underscore, or a
-backtick ( \` ).
+single quote ( ' ) to define a prime.
 - All terminals are all uppercase and start with an alphabetic character,
 with all following character being alphanumeric or an underscore.
 - Terminals can also be defined as constant strings (e.g., `"+"`).

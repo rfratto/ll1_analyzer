@@ -31,7 +31,7 @@
 ";"                 return SEMICOLON;
 "|"                 return SEPARATOR;
 
-[a-z][a-z0-9_`]*    return NONTERMINAL;
+[a-z][a-z0-9_']*    return NONTERMINAL;
 [A-Z][A-Z0-9_]*     return TERMINAL;
 \"(\\.|[^\\"])*\"   return TERMINAL;
 
