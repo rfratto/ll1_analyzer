@@ -26,6 +26,8 @@ class Grammar
 private:
 	ProductionSet m_productions;
 	Symtab* m_symbol_table;
+	
+	Nonterminal* m_start = nullptr;
 public:
 	Symtab* getSymtab() const;
 	
@@ -40,6 +42,9 @@ public:
 	
 	/// Adds a production rule for a given nonterminal.
 	void addProduction(Nonterminal* nonterminal, Production* production);
+	
+	/// Gets the start nonterminal (e.g., the first added).
+	Nonterminal* getStart() const;
 	
 	Grammar(Symtab* symbolTable);
 	~Grammar();

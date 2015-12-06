@@ -56,6 +56,11 @@ const
 
 void Grammar::addProduction(Nonterminal *nonterminal, Production *production)
 {
+	if (m_productions.size() == 0)
+	{
+		m_start = nonterminal;
+	}
+	
 	typedef std::pair<Nonterminal*, std::vector<Production*>> pair;
 	auto comp_terminal = [nonterminal](pair p) -> bool
 	{
@@ -74,6 +79,11 @@ void Grammar::addProduction(Nonterminal *nonterminal, Production *production)
 	{
 		it->second.push_back(production);
 	}
+}
+
+Nonterminal* Grammar::getStart() const
+{
+	return m_start;
 }
 
 Grammar::Grammar(Symtab* symbolTable)
