@@ -9,6 +9,8 @@
 #include <fstream>
 #include <Grammar.h>
 #include <Symtab.h>
+#include <Nonterminal.h>
+#include <Terminal.h>
 
 Grammar* parseGrammar(const char* pathname)
 {
@@ -34,6 +36,46 @@ Grammar* parseGrammar(const char* pathname)
 	return grammar;
 }
 
+void analyzeGrammar(Grammar* grammar)
+{
+	auto termlist = grammar->getSymtab()->getTerminals();
+	auto nontermlist = grammar->getSymtab()->getNonterminals();
+	
+	std::cout << "Terminals:\n\t";
+	for (unsigned int i = 0; i < termlist.size(); i++)
+	{
+		std::cout << termlist.at(i)->getName();
+		
+		if (i + 1 < termlist.size())
+		{
+			std::cout << ", ";
+		}
+		
+		if (i > 0 && (i % 10) == 0)
+		{
+			std::cout << "\n\t";
+		}
+	}
+	
+	printf("\n");
+	
+	std::cout << "Nonterminals:\n\t";
+	for (unsigned int i = 0; i < termlist.size(); i++)
+	{
+		std::cout << termlist.at(i)->getName();
+		
+		if (i + 1 < termlist.size())
+		{
+			std::cout << ", ";
+		}
+		
+		if (i > 0 && (i % 10) == 0)
+		{
+			std::cout << "\n\t";
+		}
+	}
+}
+
 int main(int argc, char** argv)
 {
 	if (argc < 2)
@@ -48,6 +90,8 @@ int main(int argc, char** argv)
 	{
 		return 1;
 	}
+	
+	analyzeGrammar(grammar);
 	
 	delete grammar->getSymtab();
 	delete grammar;
