@@ -478,13 +478,15 @@ char *yytext;
 	#include <Component.h>
 	#include "parser.hh"
 
+	#define SAVE_STR() yylval.str = new std::string(yytext, yyleng);
+
 	#define YY_DECL int yylex(Grammar* grammar)
 	void yyflushbuffer() { YY_FLUSH_BUFFER; }
 
 	extern void yyerror(Grammar*,const char*);
 #define YY_NO_UNISTD_H 1
 #define YY_NO_INPUT 1
-#line 488 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
+#line 490 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
 
 #define INITIAL 0
 
@@ -664,10 +666,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 26 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 28 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 
 
-#line 671 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
+#line 673 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
 
 	if ( !(yy_init) )
 		{
@@ -749,56 +751,56 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 28 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 30 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 ;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 30 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 32 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return EPSILON;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 31 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 33 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return COLON;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 32 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 34 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return SEMICOLON;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 33 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 35 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return SEPARATOR;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 35 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
-yylval.str = yytext; return NONTERMINAL;
+#line 37 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+SAVE_STR(); return NONTERMINAL;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 36 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
-yylval.str = yytext; return TERMINAL;
+#line 38 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+SAVE_STR(); return TERMINAL;
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 37 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
-yylval.str = yytext; return TERMINAL;
+#line 39 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+SAVE_STR(); return TERMINAL;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 39 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 41 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 yyerror(grammar, "invalid token");
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 41 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 43 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 ECHO;
 	YY_BREAK
-#line 802 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
+#line 804 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1755,7 +1757,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 41 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 43 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 
 
 

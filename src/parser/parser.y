@@ -24,7 +24,7 @@
 
 %union {
 	int i;
-	const char* str;
+	std::string* str;
 	std::vector<Production *>* production_list;
 	std::vector<Component *>* component_list;
 	Component* component;
@@ -53,12 +53,13 @@ production_rules
 production_rule
 	: NONTERMINAL COLON rule_list SEMICOLON
 	{
-		auto nonterm = grammar->getSymtab()->addNonterminal($1);
+		auto nonterm = grammar->getSymtab()->addNonterminal(*$1);
 		for (auto prod : *$3)
 		{
 			grammar->addProduction(nonterm, prod);
 		}
 
+		delete $1;
 		delete $3;
 	}
 	;
@@ -96,11 +97,13 @@ rule_composition
 component
 	: NONTERMINAL
 	{
-		$$ = (Component *)grammar->getSymtab()->addNonterminal($1);
+		$$ = (Component *)grammar->getSymtab()->addNonterminal(*$1);
+		delete $1;
 	}
 	| TERMINAL
 	{
-		$$ = (Component *)grammar->getSymtab()->addTerminal($1);
+		$$ = (Component *)grammar->getSymtab()->addTerminal(*$1);
+		delete $1;
 	}
 	;
 

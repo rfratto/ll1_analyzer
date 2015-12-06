@@ -122,7 +122,7 @@ typedef union YYSTYPE
 #line 25 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
 {
 	int i;
-	const char* str;
+	std::string* str;
 	std::vector<Production *>* production_list;
 	std::vector<Component *>* component_list;
 	Component* component;
@@ -427,8 +427,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    45,    45,    49,    50,    54,    67,    75,    87,    88,
-      92,    93,    97,   101
+       0,    45,    45,    49,    50,    54,    68,    76,    88,    89,
+      93,    94,    98,   103
 };
 #endif
 
@@ -1341,18 +1341,19 @@ yyreduce:
         case 5:
 #line 55 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     {
-		auto nonterm = grammar->getSymtab()->addNonterminal((yyvsp[(1) - (4)].str));
+		auto nonterm = grammar->getSymtab()->addNonterminal(*(yyvsp[(1) - (4)].str));
 		for (auto prod : *(yyvsp[(3) - (4)].production_list))
 		{
 			grammar->addProduction(nonterm, prod);
 		}
 
+		delete (yyvsp[(1) - (4)].str);
 		delete (yyvsp[(3) - (4)].production_list);
 	;}
     break;
 
   case 6:
-#line 68 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 69 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     {
 		auto prod = new Production(*(yyvsp[(3) - (3)].component_list));
 		(yyval.production_list) = (yyvsp[(1) - (3)].production_list);
@@ -1363,7 +1364,7 @@ yyreduce:
     break;
 
   case 7:
-#line 76 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 77 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     {
 		auto prod = new Production(*(yyvsp[(1) - (1)].component_list));
 		(yyval.production_list) = new std::vector<Production *>();
@@ -1374,42 +1375,44 @@ yyreduce:
     break;
 
   case 8:
-#line 87 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 88 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     { (yyval.component_list) = (yyvsp[(1) - (1)].component_list); ;}
     break;
 
   case 9:
-#line 88 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 89 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     { (yyval.component_list) = new std::vector<Component* >(); ;}
     break;
 
   case 10:
-#line 92 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 93 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     { (yyval.component_list) = (yyvsp[(1) - (2)].component_list); (yyval.component_list)->push_back((yyvsp[(2) - (2)].component)); ;}
     break;
 
   case 11:
-#line 93 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 94 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     { (yyval.component_list) = new std::vector<Component *>(); (yyval.component_list)->push_back((yyvsp[(1) - (1)].component)); ;}
     break;
 
   case 12:
-#line 98 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 99 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     {
-		(yyval.component) = (Component *)grammar->getSymtab()->addNonterminal((yyvsp[(1) - (1)].str));
+		(yyval.component) = (Component *)grammar->getSymtab()->addNonterminal(*(yyvsp[(1) - (1)].str));
+		delete (yyvsp[(1) - (1)].str);
 	;}
     break;
 
   case 13:
-#line 102 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 104 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     {
-		(yyval.component) = (Component *)grammar->getSymtab()->addTerminal((yyvsp[(1) - (1)].str));
+		(yyval.component) = (Component *)grammar->getSymtab()->addTerminal(*(yyvsp[(1) - (1)].str));
+		delete (yyvsp[(1) - (1)].str);
 	;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1413 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
+#line 1416 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1623,6 +1626,6 @@ yyreturn:
 }
 
 
-#line 107 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 110 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
 
 

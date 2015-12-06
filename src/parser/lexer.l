@@ -11,6 +11,8 @@
 	#include <Component.h>
 	#include "parser.hh"
 
+	#define SAVE_STR() yylval.str = new std::string(yytext, yyleng);
+
 	#define YY_DECL int yylex(Grammar* grammar)
 	void yyflushbuffer() { YY_FLUSH_BUFFER; }
 
@@ -32,9 +34,9 @@
 ";"                 return SEMICOLON;
 "|"                 return SEPARATOR;
 
-[a-z][a-z0-9_']*    yylval.str = yytext; return NONTERMINAL;
-[A-Z][A-Z0-9_]*     yylval.str = yytext; return TERMINAL;
-\"(\\.|[^\\"])*\"   yylval.str = yytext; return TERMINAL;
+[a-z][a-z0-9_']*    SAVE_STR(); return NONTERMINAL;
+[A-Z][A-Z0-9_]*     SAVE_STR(); return TERMINAL;
+\"(\\.|[^\\"])*\"   SAVE_STR(); return TERMINAL;
 
 .                   yyerror(grammar, "invalid token");
 

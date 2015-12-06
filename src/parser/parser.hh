@@ -63,7 +63,7 @@ typedef union YYSTYPE
 #line 25 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
 {
 	int i;
-	const char* str;
+	std::string* str;
 	std::vector<Production *>* production_list;
 	std::vector<Component *>* component_list;
 	Component* component;
