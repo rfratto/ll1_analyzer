@@ -12,6 +12,17 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
    message(FATAL_ERROR "In-source builds are not allowed.")
 endif()
 
+# Add flags 
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+	else()
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wno-deprecated-register")
+
 find_package(BISON)
 if (${BISON_FOUND})
     bison_target(BisonOutput ${CMAKE_SOURCE_DIR}/src/parser/parser.y
