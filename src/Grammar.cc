@@ -20,6 +20,20 @@ ProductionSet Grammar::getProductions() const
 	return m_productions;
 }
 
+bool Grammar::hasProductions(Nonterminal *nonterminal) const
+{
+	typedef std::pair<Nonterminal*, std::vector<Production*>> pair;
+	auto comp_terminal = [nonterminal](pair p) -> bool
+	{
+		return p.first == nonterminal;
+	};
+	
+	auto it = std::find_if(m_productions.begin(), m_productions.end(),
+						   comp_terminal);
+	
+	return it != m_productions.end();
+}
+
 std::vector<Production* > Grammar::getProductions(Nonterminal *nonterminal)
 const
 {

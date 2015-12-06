@@ -32,6 +32,9 @@ public:
 	/// Gets all productions.
 	ProductionSet getProductions() const;
 	
+	/// Returns whether or not a nonterminal has defined productions.
+	bool hasProductions(Nonterminal* nonterminal) const;
+	
 	/// Gets all productions for a given nonterminal.
 	std::vector<Production *> getProductions(Nonterminal* nonterminal) const;
 	
