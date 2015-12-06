@@ -12,6 +12,8 @@
 
 	#define YY_DECL int yylex(Grammar* grammar)
 	void yyflushbuffer() { YY_FLUSH_BUFFER; }
+
+	extern void yyerror(Grammar*,const char*);
 %}
 
 %option noyywrap
@@ -31,5 +33,7 @@
 [a-z][a-z0-9_`]*    return NONTERMINAL;
 [A-Z][A-Z0-9_]*     return TERMINAL;
 \"(\\.|[^\\"])*\"   return TERMINAL;
+
+.                   yyerror(grammar, "invalid token");
 
 %%

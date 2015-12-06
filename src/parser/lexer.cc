@@ -364,8 +364,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 8
-#define YY_END_OF_BUFFER 9
+#define YY_NUM_RULES 9
+#define YY_END_OF_BUFFER 10
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -373,10 +373,10 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[18] =
+static yyconst flex_int16_t yy_accept[19] =
     {   0,
-        0,    0,    9,    8,    1,    8,    2,    3,    4,    6,
-        5,    0,    7,    0,    6,    5,    0
+        0,    0,   10,    8,    1,    1,    8,    2,    3,    4,
+        6,    5,    0,    7,    0,    6,    5,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -417,34 +417,36 @@ static yyconst flex_int32_t yy_meta[13] =
         4,    4
     } ;
 
-static yyconst flex_int16_t yy_base[21] =
+static yyconst flex_int16_t yy_base[22] =
     {   0,
-        0,    0,   15,   36,   36,    9,   36,   36,   36,    0,
-        0,   16,   36,   11,    0,    0,   36,   26,   29,   31
+        0,    0,   15,   36,   36,   36,    9,   36,   36,   36,
+        0,    0,   16,   36,   11,    0,    0,   36,   26,   29,
+       31
     } ;
 
-static yyconst flex_int16_t yy_def[21] =
+static yyconst flex_int16_t yy_def[22] =
     {   0,
-       17,    1,   17,   17,   17,   18,   17,   17,   17,   19,
-       20,   18,   17,   18,   19,   20,    0,   17,   17,   17
+       18,    1,   18,   18,   18,   18,   19,   18,   18,   18,
+       20,   21,   19,   18,   19,   20,   21,    0,   18,   18,
+       18
     } ;
 
 static yyconst flex_int16_t yy_nxt[49] =
     {   0,
-        4,    5,    5,    6,    7,    4,    8,    9,   10,    4,
-        4,   11,   13,   17,   17,   17,   17,   17,   14,   13,
-       17,   17,   17,   17,   17,   14,   12,   12,   12,   12,
-       15,   15,   16,   17,   16,    3,   17,   17,   17,   17,
-       17,   17,   17,   17,   17,   17,   17,   17
+        4,    5,    6,    7,    8,    4,    9,   10,   11,    4,
+        4,   12,   14,   18,   18,   18,   18,   18,   15,   14,
+       18,   18,   18,   18,   18,   15,   13,   13,   13,   13,
+       16,   16,   17,   18,   17,    3,   18,   18,   18,   18,
+       18,   18,   18,   18,   18,   18,   18,   18
     } ;
 
 static yyconst flex_int16_t yy_chk[49] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    6,   14,    3,    0,    0,    0,    6,   12,
-        0,    0,    0,    0,    0,   12,   18,   18,   18,   18,
-       19,   19,   20,    0,   20,   17,   17,   17,   17,   17,
-       17,   17,   17,   17,   17,   17,   17,   17
+        1,    1,    7,   15,    3,    0,    0,    0,    7,   13,
+        0,    0,    0,    0,    0,   13,   19,   19,   19,   19,
+       20,   20,   21,    0,   21,   18,   18,   18,   18,   18,
+       18,   18,   18,   18,   18,   18,   18,   18
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -475,9 +477,11 @@ char *yytext;
 
 	#define YY_DECL int yylex(Grammar* grammar)
 	void yyflushbuffer() { YY_FLUSH_BUFFER; }
+
+	extern void yyerror(Grammar*,const char*);
 #define YY_NO_UNISTD_H 1
 #define YY_NO_INPUT 1
-#line 481 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
+#line 485 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
 
 #define INITIAL 0
 
@@ -657,10 +661,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 23 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 25 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 
 
-#line 664 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
+#line 668 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
 
 	if ( !(yy_init) )
 		{
@@ -713,13 +717,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 18 )
+				if ( yy_current_state >= 19 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_current_state != 17 );
+		while ( yy_current_state != 18 );
 		yy_cp = (yy_last_accepting_cpos);
 		yy_current_state = (yy_last_accepting_state);
 
@@ -742,46 +746,51 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 25 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 27 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 ;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 27 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 29 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return EPSILON;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 28 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 30 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return COLON;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 29 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 31 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return SEMICOLON;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 31 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 33 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return NONTERMINAL;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 32 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 34 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return TERMINAL;
 	YY_BREAK
 case 7:
 /* rule 7 can match eol */
 YY_RULE_SETUP
-#line 33 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 35 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return TERMINAL;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 35 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 37 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+yyerror(grammar, "invalid token");
+	YY_BREAK
+case 9:
+YY_RULE_SETUP
+#line 39 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 ECHO;
 	YY_BREAK
-#line 785 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
+#line 794 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1074,7 +1083,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 18 )
+			if ( yy_current_state >= 19 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1102,11 +1111,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 18 )
+		if ( yy_current_state >= 19 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 17);
+	yy_is_jam = (yy_current_state == 18);
 
 	return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1738,7 +1747,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 35 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 39 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 
 
 
