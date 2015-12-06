@@ -10,29 +10,27 @@
 #include <Grammar.h>
 #include <Symtab.h>
 
-bool file_exists(const char* pathname)
-{
-	bool exists = false;
-	
-	std::ifstream file(pathname);
-	exists = file.is_open();
-	file.close();
-	
-	return exists;
-}
-
 Grammar* parseGrammar(const char* pathname)
 {
-	// Verify path exists.
-	if (file_exists(pathname) == false)
-	{
-		std::cerr << "could not open " << pathname << " for reading\n";
-		return nullptr;
-	}
-	
 	auto symtab = new Symtab();
 	auto grammar = new Grammar(symtab);
 	
+	extern FILE* yyin;
+	extern int yyparse(Grammar*);
+	extern void yyflushbuffer();
+	
+	auto file = fopen(pathname, "r");
+	if (file == nullptr)
+	{
+		std::cerr << "could not open " << pathname << " for reading\n";
+		return nullptr;	
+	}
+	
+	yyflushbuffer();
+	yyin = file;
+	yyparse(grammar);
+	
+	fclose(file);
 	return grammar;
 }
 
