@@ -31,9 +31,9 @@
 ";"                 return SEMICOLON;
 "|"                 return SEPARATOR;
 
-[a-z][a-z0-9_']*    return NONTERMINAL;
-[A-Z][A-Z0-9_]*     return TERMINAL;
-\"(\\.|[^\\"])*\"   return TERMINAL;
+[a-z][a-z0-9_']*    yylval.str = yytext; return NONTERMINAL;
+[A-Z][A-Z0-9_]*     yylval.str = yytext; return TERMINAL;
+\"(\\.|[^\\"])*\"   yylval.str = yytext; return TERMINAL;
 
 .                   yyerror(grammar, "invalid token");
 

@@ -59,7 +59,15 @@
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+#line 22 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+{
+	int i;
+	const char* str;
+}
+/* Line 1529 of yacc.c.  */
+#line 70 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.hh"
+	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

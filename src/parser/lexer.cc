@@ -774,18 +774,18 @@ return SEPARATOR;
 case 6:
 YY_RULE_SETUP
 #line 34 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
-return NONTERMINAL;
+yylval.str = yytext; return NONTERMINAL;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 35 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
-return TERMINAL;
+yylval.str = yytext; return TERMINAL;
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
 #line 36 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
-return TERMINAL;
+yylval.str = yytext; return TERMINAL;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP

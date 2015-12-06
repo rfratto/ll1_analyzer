@@ -89,6 +89,8 @@
 #line 9 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
 
 	#include <Grammar.h>
+	#include <Symtab.h>
+	#include <sstream>
 
 	extern void yyerror(Grammar* grammar, const char* s);
 	extern int yylex(Grammar* grammar);
@@ -113,7 +115,15 @@
 #endif
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+#line 22 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+{
+	int i;
+	const char* str;
+}
+/* Line 193 of yacc.c.  */
+#line 126 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
+	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
@@ -125,7 +135,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 129 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
+#line 139 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
 
 #ifdef short
 # undef short
@@ -411,8 +421,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    27,    27,    31,    32,    36,    40,    41,    46,    47,
-      51,    52,    56,    57
+       0,    36,    36,    40,    41,    45,    49,    50,    55,    56,
+      60,    61,    65,    75
 };
 #endif
 
@@ -1322,9 +1332,29 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-      
+        case 12:
+#line 66 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+    {
+		auto nonterm = grammar->getSymtab()->getNonterminal((yyvsp[(1) - (1)].str));
+		if (nonterm == nullptr)
+		{
+			std::stringstream ss;
+			ss << "Usage of non-declared nonterminal " << (yyvsp[(1) - (1)].str);
+			yyerror(grammar, ss.str().c_str());
+		}
+	;}
+    break;
+
+  case 13:
+#line 76 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+    {
+		grammar->getSymtab()->addTerminal((yyvsp[(1) - (1)].str));
+	;}
+    break;
+
+
 /* Line 1267 of yacc.c.  */
-#line 1328 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
+#line 1358 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1538,6 +1568,6 @@ yyreturn:
 }
 
 
-#line 60 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 81 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
 
 

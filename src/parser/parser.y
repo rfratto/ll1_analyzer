@@ -8,6 +8,8 @@
 
 %{
 	#include <Grammar.h>
+	#include <Symtab.h>
+	#include <sstream>
 
 	extern void yyerror(Grammar* grammar, const char* s);
 	extern int yylex(Grammar* grammar);
@@ -17,9 +19,16 @@
 %lex-param { Grammar* grammar }
 %parse-param { Grammar* grammar }
 
+%union {
+	int i;
+	const char* str;
+}
+
 %start start
 
 %token NONTERMINAL TERMINAL SEPARATOR SEMICOLON COLON EPSILON
+
+%type <str> NONTERMINAL TERMINAL
 
 %%
 
@@ -54,7 +63,19 @@ rule_composition
 
 component
 	: NONTERMINAL
+	{
+		auto nonterm = grammar->getSymtab()->getNonterminal($1);
+		if (nonterm == nullptr)
+		{
+			std::stringstream ss;
+			ss << "Usage of non-declared nonterminal " << $1;
+			yyerror(grammar, ss.str().c_str());
+		}
+	}
 	| TERMINAL
+	{
+		grammar->getSymtab()->addTerminal($1);
+	}
 	;
 
 %%
