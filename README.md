@@ -8,6 +8,29 @@ It will detect instances of:
 - FIRST/FIRST conflicts
 - FIRST/FOLLOW conflicts
 
+## Using
+
+`$ ll1_analyzer [grammar file]`
+
+## Grammar Definition
+
+ll1_analyzer makes some assumptions about the input grammar:
+
+- All nonterminals are all lowercase and start with an alphabetic character,
+with all following characters being either alphanumeric, an underscore, or a
+backtick ( \` ).
+- All terminals are all uppercase and start with an alphabetic character,
+with all following character being alphanumeric or an underscore.
+- Terminals can also be defined as constant strings (e.g., `"+"`).
+- A production rule is defined as follows, with the rules terminated with
+a semicolon:
+```
+	nonterminal: rule_1 | rule_2 | ... | rule_n;
+```
+- The first production rule defined is always treated as the start nonterminal.
+- `$` is used as epsilon.
+- Whitespace is ignored.
+
 ## License
 
 ```
