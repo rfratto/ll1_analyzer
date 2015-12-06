@@ -11,6 +11,7 @@
 	#include "parser.hh"
 
 	#define YY_DECL int yylex(Grammar* grammar)
+	void yyflushbuffer() { YY_FLUSH_BUFFER; }
 %}
 
 %option noyywrap
