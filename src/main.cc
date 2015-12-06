@@ -48,6 +48,13 @@ void analyzeGrammar(Grammar* grammar)
 			std::cerr << "error: nonterminal " << nonterm->getName() << " "
 			          << "used but has no production rules\n";
 		}
+		
+		if (nonterm->getReferences().size() == 0 &&
+			grammar->getStart() != nonterm)
+		{
+			std::cerr << "warning: nonterminal " << nonterm->getName() << " "
+					  << "defined but is not used\n";
+		}
 	}
 }
 
