@@ -16,6 +16,41 @@ std::vector<Component *> Symtab::getComponents() const
 	return m_components;
 }
 
+std::vector<Terminal *> Symtab::getTerminals() const
+{
+	std::vector<Terminal *> termlist;
+	
+	for (auto comp : m_components)
+	{
+		if (dynamic_cast<Terminal *>(comp) == nullptr)
+		{
+			continue;
+		}
+		
+		termlist.push_back((Terminal *)comp);
+	}
+	
+	return termlist;
+}
+
+std::vector<Nonterminal *> Symtab::getNonterminals() const
+{
+	std::vector<Nonterminal *> nontermlist;
+	
+	for (auto comp : m_components)
+	{
+		if (dynamic_cast<Nonterminal *>(comp) == nullptr)
+		{
+			continue;
+		}
+		
+		nontermlist.push_back((Nonterminal *)comp);
+	}
+	
+	return nontermlist;
+}
+
+
 Component* Symtab::getComponent(std::string name) const
 {
 	auto compare_component = [name](Component* comp) -> bool

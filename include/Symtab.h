@@ -27,6 +27,12 @@ public:
 	/// Gets all components in the symbol table.
 	std::vector<Component *> getComponents() const;
 	
+	/// Gets all nonterminals in the symbol table.
+	std::vector<Terminal *> getTerminals() const;
+	
+	/// Gets all terminals in the symbol table.
+	std::vector<Nonterminal *> getNonterminals() const;
+	
 	/// Gets a component by a given name, if one exists.
 	Component* getComponent(std::string name) const;
 	
