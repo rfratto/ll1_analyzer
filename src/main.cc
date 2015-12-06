@@ -38,58 +38,17 @@ Grammar* parseGrammar(const char* pathname)
 
 void analyzeGrammar(Grammar* grammar)
 {
-	const unsigned int START_LENGTH = 0;
-	const unsigned int TAB_SIZE = 4;
-	
-	unsigned int line_length = START_LENGTH + TAB_SIZE;
-	
 	auto termlist = grammar->getSymtab()->getTerminals();
 	auto nontermlist = grammar->getSymtab()->getNonterminals();
 	
-	std::cout << "Terminals:\n\t";
-	for (unsigned int i = 0; i < termlist.size(); i++)
+	for (auto nonterm : nontermlist)
 	{
-		std::cout << termlist.at(i)->getName();
-		line_length += termlist.at(i)->getName().length();
-		
-		if (i + 1 < termlist.size())
+		if (grammar->hasProductions(nonterm) == false)
 		{
-			std::cout << ", ";
-			line_length += 2;
-		}
-		
-		
-		if (line_length > 40)
-		{
-			std::cout << "\n\t";
-			line_length = START_LENGTH + TAB_SIZE;
+			std::cerr << "error: nonterminal " << nonterm->getName() << " "
+			          << "used but has no production rules\n";
 		}
 	}
-	
-	std::cout << "\n";
-	
-	line_length = START_LENGTH + TAB_SIZE;
-	
-	std::cout << "Nonterminals:\n\t";
-	for (unsigned int i = 0; i < nontermlist.size(); i++)
-	{
-		std::cout << nontermlist.at(i)->getName();
-		line_length += nontermlist.at(i)->getName().length();
-		
-		if (i + 1 < nontermlist.size())
-		{
-			std::cout << ", ";
-			line_length += 2;
-		}
-		
-		if (line_length > 40)
-		{
-			std::cout << "\n\t";
-			line_length = START_LENGTH + TAB_SIZE;
-		}
-	}
-	
-	std::cout << "\n";
 }
 
 int main(int argc, char** argv)
