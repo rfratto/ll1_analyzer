@@ -5,3 +5,27 @@
 ** Licensed under the MIT license <http://opensource.org/licenses/MIT>. This file
 ** may not be copied, modified, or distributed except according to those terms.
 */
+
+%{
+	#include "parser.hh"
+%}
+
+%option noyywrap
+%option nounistd
+%option never-interactive
+%option nounput
+%option noinput
+
+%%
+
+[\ \t\r\n]			;
+
+"$"                 return EPSILON;
+":"                 return COLON;
+";"                 return SEMICOLON;
+
+[a-z][a-z0-9_`]*    return NONTERMINAL;
+[A-Z][A-Z0-9_]*     return TERMINAL;
+\"(\\.|[^\\"])*\"   return TERMINAL;
+
+%%
