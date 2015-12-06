@@ -104,7 +104,7 @@
 # undef YYERROR_VERBOSE
 # define YYERROR_VERBOSE 1
 #else
-# define YYERROR_VERBOSE 0
+# define YYERROR_VERBOSE 1
 #endif
 
 /* Enabling the token table.  */
@@ -411,8 +411,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    26,    26,    30,    31,    35,    39,    40,    45,    46,
-      50,    51,    55,    56
+       0,    27,    27,    31,    32,    36,    40,    41,    46,    47,
+      51,    52,    56,    57
 };
 #endif
 
@@ -1538,6 +1538,6 @@ yyreturn:
 }
 
 
-#line 59 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 60 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
 
 

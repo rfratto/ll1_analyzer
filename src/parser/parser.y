@@ -13,6 +13,7 @@
 	extern int yylex(Grammar* grammar);
 %}
 
+%error-verbose
 %lex-param { Grammar* grammar }
 %parse-param { Grammar* grammar }
 
