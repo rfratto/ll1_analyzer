@@ -71,12 +71,12 @@ void analyzeGrammar(Grammar* grammar)
 	line_length = START_LENGTH + TAB_SIZE;
 	
 	std::cout << "Nonterminals:\n\t";
-	for (unsigned int i = 0; i < termlist.size(); i++)
+	for (unsigned int i = 0; i < nontermlist.size(); i++)
 	{
-		std::cout << termlist.at(i)->getName();
-		line_length += termlist.at(i)->getName().length();
+		std::cout << nontermlist.at(i)->getName();
+		line_length += nontermlist.at(i)->getName().length();
 		
-		if (i + 1 < termlist.size())
+		if (i + 1 < nontermlist.size())
 		{
 			std::cout << ", ";
 			line_length += 2;
