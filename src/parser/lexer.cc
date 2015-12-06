@@ -470,10 +470,13 @@ char *yytext;
 ** may not be copied, modified, or distributed except according to those terms.
 */
 #line 10 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+	#include <Grammar.h>
 	#include "parser.hh"
+
+	#define YY_DECL int yylex(Grammar* grammar)
 #define YY_NO_UNISTD_H 1
 #define YY_NO_INPUT 1
-#line 477 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
+#line 480 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
 
 #define INITIAL 0
 
@@ -653,10 +656,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 19 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 22 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 
 
-#line 660 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
+#line 663 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
 
 	if ( !(yy_init) )
 		{
@@ -738,46 +741,46 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 21 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 24 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 ;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 23 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 26 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return EPSILON;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 24 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 27 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return COLON;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 25 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 28 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return SEMICOLON;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 27 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 30 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return NONTERMINAL;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 28 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 31 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return TERMINAL;
 	YY_BREAK
 case 7:
 /* rule 7 can match eol */
 YY_RULE_SETUP
-#line 29 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 32 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 return TERMINAL;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 31 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 34 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 ECHO;
 	YY_BREAK
-#line 781 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
+#line 784 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1734,7 +1737,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 31 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
+#line 34 "/Users/robert/Desktop/ll1_analyzer/src/parser/lexer.l"
 
 
 

@@ -6,8 +6,9 @@
 ** may not be copied, modified, or distributed except according to those terms.
 */
 #include <iostream>
+#include <Grammar.h>
 
-void yyerror(const char* err)
+void yyerror(Grammar* grammar, const char* err)
 {
 	std::cerr << err << std::endl;
 }

@@ -88,8 +88,10 @@
 /* Copy the first part of user declarations.  */
 #line 9 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
 
-	extern void yyerror(const char* s);
-	extern int yylex();
+	#include <Grammar.h>
+
+	extern void yyerror(Grammar* grammar, const char* s);
+	extern int yylex(Grammar* grammar);
 
 
 /* Enabling traces.  */
@@ -123,7 +125,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 127 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
+#line 129 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
 
 #ifdef short
 # undef short
@@ -409,8 +411,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    21,    21,    25,    26,    30,    34,    35,    40,    41,
-      45,    46,    50,    51
+       0,    26,    26,    30,    31,    35,    39,    40,    45,    46,
+      50,    51,    55,    56
 };
 #endif
 
@@ -533,7 +535,7 @@ do								\
     }								\
   else								\
     {								\
-      yyerror (YY_("syntax error: cannot back up")); \
+      yyerror (grammar, YY_("syntax error: cannot back up")); \
       YYERROR;							\
     }								\
 while (YYID (0))
@@ -590,7 +592,7 @@ while (YYID (0))
 #ifdef YYLEX_PARAM
 # define YYLEX yylex (YYLEX_PARAM)
 #else
-# define YYLEX yylex ()
+# define YYLEX yylex (grammar)
 #endif
 
 /* Enable debugging if requested.  */
@@ -613,7 +615,7 @@ do {									  \
     {									  \
       YYFPRINTF (stderr, "%s ", Title);					  \
       yy_symbol_print (stderr,						  \
-		  Type, Value); \
+		  Type, Value, grammar); \
       YYFPRINTF (stderr, "\n");						  \
     }									  \
 } while (YYID (0))
@@ -627,17 +629,19 @@ do {									  \
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, Grammar* grammar)
 #else
 static void
-yy_symbol_value_print (yyoutput, yytype, yyvaluep)
+yy_symbol_value_print (yyoutput, yytype, yyvaluep, grammar)
     FILE *yyoutput;
     int yytype;
     YYSTYPE const * const yyvaluep;
+    Grammar* grammar;
 #endif
 {
   if (!yyvaluep)
     return;
+  YYUSE (grammar);
 # ifdef YYPRINT
   if (yytype < YYNTOKENS)
     YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
@@ -659,13 +663,14 @@ yy_symbol_value_print (yyoutput, yytype, yyvaluep)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, Grammar* grammar)
 #else
 static void
-yy_symbol_print (yyoutput, yytype, yyvaluep)
+yy_symbol_print (yyoutput, yytype, yyvaluep, grammar)
     FILE *yyoutput;
     int yytype;
     YYSTYPE const * const yyvaluep;
+    Grammar* grammar;
 #endif
 {
   if (yytype < YYNTOKENS)
@@ -673,7 +678,7 @@ yy_symbol_print (yyoutput, yytype, yyvaluep)
   else
     YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
 
-  yy_symbol_value_print (yyoutput, yytype, yyvaluep);
+  yy_symbol_value_print (yyoutput, yytype, yyvaluep, grammar);
   YYFPRINTF (yyoutput, ")");
 }
 
@@ -713,12 +718,13 @@ do {								\
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_reduce_print (YYSTYPE *yyvsp, int yyrule)
+yy_reduce_print (YYSTYPE *yyvsp, int yyrule, Grammar* grammar)
 #else
 static void
-yy_reduce_print (yyvsp, yyrule)
+yy_reduce_print (yyvsp, yyrule, grammar)
     YYSTYPE *yyvsp;
     int yyrule;
+    Grammar* grammar;
 #endif
 {
   int yynrhs = yyr2[yyrule];
@@ -732,7 +738,7 @@ yy_reduce_print (yyvsp, yyrule)
       fprintf (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr, yyrhs[yyprhs[yyrule] + yyi],
 		       &(yyvsp[(yyi + 1) - (yynrhs)])
-		       		       );
+		       		       , grammar);
       fprintf (stderr, "\n");
     }
 }
@@ -740,7 +746,7 @@ yy_reduce_print (yyvsp, yyrule)
 # define YY_REDUCE_PRINT(Rule)		\
 do {					\
   if (yydebug)				\
-    yy_reduce_print (yyvsp, Rule); \
+    yy_reduce_print (yyvsp, Rule, grammar); \
 } while (YYID (0))
 
 /* Nonzero means print parse trace.  It is left uninitialized so that
@@ -991,16 +997,18 @@ yysyntax_error (char *yyresult, int yystate, int yychar)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, Grammar* grammar)
 #else
 static void
-yydestruct (yymsg, yytype, yyvaluep)
+yydestruct (yymsg, yytype, yyvaluep, grammar)
     const char *yymsg;
     int yytype;
     YYSTYPE *yyvaluep;
+    Grammar* grammar;
 #endif
 {
   YYUSE (yyvaluep);
+  YYUSE (grammar);
 
   if (!yymsg)
     yymsg = "Deleting";
@@ -1025,7 +1033,7 @@ int yyparse ();
 #endif
 #else /* ! YYPARSE_PARAM */
 #if defined __STDC__ || defined __cplusplus
-int yyparse (void);
+int yyparse (Grammar* grammar);
 #else
 int yyparse ();
 #endif
@@ -1062,11 +1070,11 @@ yyparse (YYPARSE_PARAM)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 int
-yyparse (void)
+yyparse (Grammar* grammar)
 #else
 int
-yyparse ()
-
+yyparse (grammar)
+    Grammar* grammar;
 #endif
 #endif
 {
@@ -1316,7 +1324,7 @@ yyreduce:
     {
       
 /* Line 1267 of yacc.c.  */
-#line 1320 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
+#line 1328 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1352,7 +1360,7 @@ yyerrlab:
     {
       ++yynerrs;
 #if ! YYERROR_VERBOSE
-      yyerror (YY_("syntax error"));
+      yyerror (grammar, YY_("syntax error"));
 #else
       {
 	YYSIZE_T yysize = yysyntax_error (0, yystate, yychar);
@@ -1376,11 +1384,11 @@ yyerrlab:
 	if (0 < yysize && yysize <= yymsg_alloc)
 	  {
 	    (void) yysyntax_error (yymsg, yystate, yychar);
-	    yyerror (yymsg);
+	    yyerror (grammar, yymsg);
 	  }
 	else
 	  {
-	    yyerror (YY_("syntax error"));
+	    yyerror (grammar, YY_("syntax error"));
 	    if (yysize != 0)
 	      goto yyexhaustedlab;
 	  }
@@ -1404,7 +1412,7 @@ yyerrlab:
       else
 	{
 	  yydestruct ("Error: discarding",
-		      yytoken, &yylval);
+		      yytoken, &yylval, grammar);
 	  yychar = YYEMPTY;
 	}
     }
@@ -1460,7 +1468,7 @@ yyerrlab1:
 
 
       yydestruct ("Error: popping",
-		  yystos[yystate], yyvsp);
+		  yystos[yystate], yyvsp, grammar);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
@@ -1498,7 +1506,7 @@ yyabortlab:
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
 yyexhaustedlab:
-  yyerror (YY_("memory exhausted"));
+  yyerror (grammar, YY_("memory exhausted"));
   yyresult = 2;
   /* Fall through.  */
 #endif
@@ -1506,7 +1514,7 @@ yyexhaustedlab:
 yyreturn:
   if (yychar != YYEOF && yychar != YYEMPTY)
      yydestruct ("Cleanup: discarding lookahead",
-		 yytoken, &yylval);
+		 yytoken, &yylval, grammar);
   /* Do not reclaim the symbols of the rule which action triggered
      this YYABORT or YYACCEPT.  */
   YYPOPSTACK (yylen);
@@ -1514,7 +1522,7 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-		  yystos[*yyssp], yyvsp);
+		  yystos[*yyssp], yyvsp, grammar);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
@@ -1530,6 +1538,6 @@ yyreturn:
 }
 
 
-#line 54 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 59 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
 
 

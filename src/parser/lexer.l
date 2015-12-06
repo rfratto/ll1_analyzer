@@ -7,7 +7,10 @@
 */
 
 %{
+	#include <Grammar.h>
 	#include "parser.hh"
+
+	#define YY_DECL int yylex(Grammar* grammar)
 %}
 
 %option noyywrap

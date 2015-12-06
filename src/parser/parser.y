@@ -7,9 +7,14 @@
 */
 
 %{
-	extern void yyerror(const char* s);
-	extern int yylex();
+	#include <Grammar.h>
+
+	extern void yyerror(Grammar* grammar, const char* s);
+	extern int yylex(Grammar* grammar);
 %}
+
+%lex-param { Grammar* grammar }
+%parse-param { Grammar* grammar }
 
 %start start
 
