@@ -1,0 +1,4 @@
+start
+	: ID
+	| start ID
+	;

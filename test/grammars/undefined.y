@@ -1,0 +1,3 @@
+start:
+	undefined_nonterminal
+	;
