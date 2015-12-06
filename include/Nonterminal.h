@@ -10,8 +10,18 @@
 
 #include "Component.h"
 
+#include <vector>
+
+class Production;
+
 class Nonterminal : public Component
 {
+private:
+	std::vector<Production *> m_references;
 public:
+	std::vector<Production *> getReferences() const;
+	
+	void addReference(Production* reference);
+	
 	Nonterminal(std::string name);
 };

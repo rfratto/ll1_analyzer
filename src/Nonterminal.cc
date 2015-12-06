@@ -8,6 +8,16 @@
 
 #include <Nonterminal.h>
 
+std::vector<Production *> Nonterminal::getReferences() const
+{
+	return m_references;
+}
+
+void Nonterminal::addReference(Production *reference)
+{
+	m_references.push_back(reference);
+}
+
 Nonterminal::Nonterminal(std::string name)
 : Component(name)
 {
