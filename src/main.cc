@@ -7,6 +7,8 @@
 */
 #include <iostream>
 #include <fstream>
+#include <Grammar.h>
+#include <Symtab.h>
 
 bool file_exists(const char* pathname)
 {
@@ -19,6 +21,21 @@ bool file_exists(const char* pathname)
 	return exists;
 }
 
+Grammar* parseGrammar(const char* pathname)
+{
+	// Verify path exists.
+	if (file_exists(pathname) == false)
+	{
+		std::cerr << "could not open " << pathname << " for reading\n";
+		return nullptr;
+	}
+	
+	auto symtab = new Symtab();
+	auto grammar = new Grammar(symtab);
+	
+	return grammar;
+}
+
 int main(int argc, char** argv)
 {
 	if (argc < 2)
@@ -26,14 +43,16 @@ int main(int argc, char** argv)
 		std::cerr << "usage: " << argv[0] << " [parser file]\n";
 		return 1;
 	}
-	
-	// Verify path exists.
+
 	const char* pathname = argv[1];
-	if (file_exists(pathname) == false)
+	auto grammar = parseGrammar(pathname);
+	if (grammar == nullptr)
 	{
-		std::cerr << "could not open " << pathname << " for reading\n";
 		return 1;
 	}
+	
+	delete grammar->getSymtab();
+	delete grammar;
 	
 	return 0;
 }
