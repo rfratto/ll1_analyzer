@@ -36,8 +36,11 @@ Grammar* parseGrammar(const char* pathname)
 	return grammar;
 }
 
-void analyzeGrammar(Grammar* grammar)
+/// Returns whether or not an error occured.
+bool analyzeGrammar(Grammar* grammar)
 {
+	bool had_error = false;
+	
 	auto termlist = grammar->getSymtab()->getTerminals();
 	auto nontermlist = grammar->getSymtab()->getNonterminals();
 	
@@ -47,6 +50,7 @@ void analyzeGrammar(Grammar* grammar)
 		{
 			std::cerr << "error: nonterminal " << nonterm->getName() << " "
 			          << "used but has no production rules\n";
+			had_error = true;
 		}
 		
 		if (nonterm->getReferences().size() == 0 &&
@@ -56,6 +60,8 @@ void analyzeGrammar(Grammar* grammar)
 					  << "defined but is not used\n";
 		}
 	}
+	
+	return had_error;
 }
 
 int main(int argc, char** argv)
@@ -65,7 +71,7 @@ int main(int argc, char** argv)
 		std::cerr << "usage: " << argv[0] << " [parser file]\n";
 		return 1;
 	}
-
+	
 	const char* pathname = argv[1];
 	auto grammar = parseGrammar(pathname);
 	if (grammar == nullptr)
@@ -73,7 +79,10 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	
-	analyzeGrammar(grammar);
+	if (analyzeGrammar(grammar) == true)
+	{
+		return 1;
+	}
 	
 	delete grammar->getSymtab();
 	delete grammar;
