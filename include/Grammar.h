@@ -42,4 +42,5 @@ public:
 	void addProduction(Nonterminal* nonterminal, Production* production);
 	
 	Grammar(Symtab* symbolTable);
+	~Grammar();
 };

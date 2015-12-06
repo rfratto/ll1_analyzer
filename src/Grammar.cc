@@ -85,3 +85,14 @@ Grammar::Grammar(Symtab* symbolTable)
 	
 	m_symbol_table = symbolTable;
 }
+
+Grammar::~Grammar()
+{
+	for (auto pair : m_productions)
+	{
+		for (auto prod : pair.second)
+		{
+			delete prod;
+		}
+	}
+}
