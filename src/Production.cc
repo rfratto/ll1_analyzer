@@ -7,6 +7,7 @@
 */
 
 #include <Production.h>
+#include <Nonterminal.h>
 
 std::vector<Component *> Production::getComponents() const
 {
@@ -16,4 +17,16 @@ std::vector<Component *> Production::getComponents() const
 Production::Production(std::vector<Component *> components)
 {
 	m_components = components;
+	
+	// For each of our nonterminals, add this as a reference.
+	for (auto component : components)
+	{
+		auto nonterm = dynamic_cast<Nonterminal *>(component);
+		if (nonterm == nullptr)
+		{
+			continue;
+		}
+		
+		nonterm->addReference(this);
+	}
 }
