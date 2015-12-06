@@ -1,0 +1,10 @@
+*.o
+*.obj
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+Makefile
+.DS_Store
+/build
+/build*
+*.swp
