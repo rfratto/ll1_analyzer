@@ -38,6 +38,11 @@ Grammar* parseGrammar(const char* pathname)
 
 void analyzeGrammar(Grammar* grammar)
 {
+	const unsigned int START_LENGTH = 0;
+	const unsigned int TAB_SIZE = 4;
+	
+	unsigned int line_length = START_LENGTH + TAB_SIZE;
+	
 	auto termlist = grammar->getSymtab()->getTerminals();
 	auto nontermlist = grammar->getSymtab()->getNonterminals();
 	
@@ -45,35 +50,46 @@ void analyzeGrammar(Grammar* grammar)
 	for (unsigned int i = 0; i < termlist.size(); i++)
 	{
 		std::cout << termlist.at(i)->getName();
+		line_length += termlist.at(i)->getName().length();
 		
 		if (i + 1 < termlist.size())
 		{
 			std::cout << ", ";
+			line_length += 2;
 		}
 		
-		if (i > 0 && (i % 10) == 0)
+		
+		if (line_length > 40)
 		{
 			std::cout << "\n\t";
+			line_length = START_LENGTH + TAB_SIZE;
 		}
 	}
 	
-	printf("\n");
+	std::cout << "\n";
+	
+	line_length = START_LENGTH + TAB_SIZE;
 	
 	std::cout << "Nonterminals:\n\t";
 	for (unsigned int i = 0; i < termlist.size(); i++)
 	{
 		std::cout << termlist.at(i)->getName();
+		line_length += termlist.at(i)->getName().length();
 		
 		if (i + 1 < termlist.size())
 		{
 			std::cout << ", ";
+			line_length += 2;
 		}
 		
-		if (i > 0 && (i % 10) == 0)
+		if (line_length > 40)
 		{
 			std::cout << "\n\t";
+			line_length = START_LENGTH + TAB_SIZE;
 		}
 	}
+	
+	std::cout << "\n";
 }
 
 int main(int argc, char** argv)
