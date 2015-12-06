@@ -11,6 +11,7 @@
 #include <Symtab.h>
 #include <Nonterminal.h>
 #include <Terminal.h>
+#include <Analyzer.h>
 
 Grammar* parseGrammar(const char* pathname)
 {
@@ -36,34 +37,6 @@ Grammar* parseGrammar(const char* pathname)
 	return grammar;
 }
 
-/// Returns whether or not an error occured.
-bool analyzeGrammar(Grammar* grammar)
-{
-	bool had_error = false;
-	
-	auto termlist = grammar->getSymtab()->getTerminals();
-	auto nontermlist = grammar->getSymtab()->getNonterminals();
-	
-	for (auto nonterm : nontermlist)
-	{
-		if (grammar->hasProductions(nonterm) == false)
-		{
-			std::cerr << "error: nonterminal " << nonterm->getName() << " "
-			          << "used but has no production rules\n";
-			had_error = true;
-		}
-		
-		if (nonterm->getReferences().size() == 0 &&
-			grammar->getStart() != nonterm)
-		{
-			std::cerr << "warning: nonterminal " << nonterm->getName() << " "
-					  << "defined but is not used\n";
-		}
-	}
-	
-	return had_error;
-}
-
 int main(int argc, char** argv)
 {
 	if (argc < 2)
@@ -79,7 +52,8 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	
-	if (analyzeGrammar(grammar) == true)
+	Analyzer analyzer(grammar);
+	if (analyzer.valid() == false)
 	{
 		return 1;
 	}
