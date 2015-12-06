@@ -60,13 +60,16 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 22 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 25 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
 {
 	int i;
 	const char* str;
+	std::vector<Production *>* production_list;
+	std::vector<Component *>* component_list;
+	Component* component;
 }
 /* Line 1529 of yacc.c.  */
-#line 70 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.hh"
+#line 73 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.hh"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

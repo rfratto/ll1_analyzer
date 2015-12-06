@@ -9,6 +9,9 @@
 %{
 	#include <Grammar.h>
 	#include <Symtab.h>
+	#include <Component.h>
+	#include <Production.h>
+
 	#include <sstream>
 
 	extern void yyerror(Grammar* grammar, const char* s);
@@ -22,6 +25,9 @@
 %union {
 	int i;
 	const char* str;
+	std::vector<Production *>* production_list;
+	std::vector<Component *>* component_list;
+	Component* component;
 }
 
 %start start
@@ -29,6 +35,9 @@
 %token NONTERMINAL TERMINAL SEPARATOR SEMICOLON COLON EPSILON
 
 %type <str> NONTERMINAL TERMINAL
+%type <component_list> rule rule_composition
+%type <production_list> rule_list
+%type <component> component
 
 %%
 
@@ -43,32 +52,55 @@ production_rules
 
 production_rule
 	: NONTERMINAL COLON rule_list SEMICOLON
+	{
+		auto nonterm = grammar->getSymtab()->addNonterminal($1);
+		for (auto prod : *$3)
+		{
+			grammar->addProduction(nonterm, prod);
+		}
+
+		delete $3;
+	}
 	;
 
 rule_list
 	: rule_list SEPARATOR rule
+	{
+		auto prod = new Production(*$3);
+		$$ = $1;
+		$$->push_back(prod);
+
+		delete $3;
+	}
 	| rule
+	{
+		auto prod = new Production(*$1);
+		$$ = new std::vector<Production *>();
+		$$->push_back(prod);
+
+		delete $1;
+	}
 	;
 
 /* A rule is a string of nonterminals and terminals or a single epsilon */
 rule
-	: rule_composition
-	| EPSILON
+	: rule_composition { $$ = $1; }
+	| EPSILON { $$ = new std::vector<Component* >(); }
 	;
 
 rule_composition
-	: rule_composition component
-	| component
+	: rule_composition component { $$ = $1; $$->push_back($2); }
+	| component { $$ = new std::vector<Component *>(); $$->push_back($1); }
 	;
 
 component
 	: NONTERMINAL
 	{
-		grammar->getSymtab()->addNonterminal($1);
+		$$ = (Component *)grammar->getSymtab()->addNonterminal($1);
 	}
 	| TERMINAL
 	{
-		grammar->getSymtab()->addTerminal($1);
+		$$ = (Component *)grammar->getSymtab()->addTerminal($1);
 	}
 	;
 

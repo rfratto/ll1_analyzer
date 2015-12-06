@@ -8,6 +8,7 @@
 
 %{
 	#include <Grammar.h>
+	#include <Component.h>
 	#include "parser.hh"
 
 	#define YY_DECL int yylex(Grammar* grammar)

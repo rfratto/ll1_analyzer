@@ -90,6 +90,9 @@
 
 	#include <Grammar.h>
 	#include <Symtab.h>
+	#include <Component.h>
+	#include <Production.h>
+
 	#include <sstream>
 
 	extern void yyerror(Grammar* grammar, const char* s);
@@ -116,13 +119,16 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 22 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 25 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
 {
 	int i;
 	const char* str;
+	std::vector<Production *>* production_list;
+	std::vector<Component *>* component_list;
+	Component* component;
 }
 /* Line 193 of yacc.c.  */
-#line 126 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
+#line 132 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -135,7 +141,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 139 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
+#line 145 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
 
 #ifdef short
 # undef short
@@ -421,8 +427,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    36,    36,    40,    41,    45,    49,    50,    55,    56,
-      60,    61,    65,    69
+       0,    45,    45,    49,    50,    54,    67,    75,    87,    88,
+      92,    93,    97,   101
 };
 #endif
 
@@ -1332,23 +1338,78 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 12:
-#line 66 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+        case 5:
+#line 55 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     {
-		grammar->getSymtab()->addNonterminal((yyvsp[(1) - (1)].str));
+		auto nonterm = grammar->getSymtab()->addNonterminal((yyvsp[(1) - (4)].str));
+		for (auto prod : *(yyvsp[(3) - (4)].production_list))
+		{
+			grammar->addProduction(nonterm, prod);
+		}
+
+		delete (yyvsp[(3) - (4)].production_list);
+	;}
+    break;
+
+  case 6:
+#line 68 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+    {
+		auto prod = new Production(*(yyvsp[(3) - (3)].component_list));
+		(yyval.production_list) = (yyvsp[(1) - (3)].production_list);
+		(yyval.production_list)->push_back(prod);
+
+		delete (yyvsp[(3) - (3)].component_list);
+	;}
+    break;
+
+  case 7:
+#line 76 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+    {
+		auto prod = new Production(*(yyvsp[(1) - (1)].component_list));
+		(yyval.production_list) = new std::vector<Production *>();
+		(yyval.production_list)->push_back(prod);
+
+		delete (yyvsp[(1) - (1)].component_list);
+	;}
+    break;
+
+  case 8:
+#line 87 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+    { (yyval.component_list) = (yyvsp[(1) - (1)].component_list); ;}
+    break;
+
+  case 9:
+#line 88 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+    { (yyval.component_list) = new std::vector<Component* >(); ;}
+    break;
+
+  case 10:
+#line 92 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+    { (yyval.component_list) = (yyvsp[(1) - (2)].component_list); (yyval.component_list)->push_back((yyvsp[(2) - (2)].component)); ;}
+    break;
+
+  case 11:
+#line 93 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+    { (yyval.component_list) = new std::vector<Component *>(); (yyval.component_list)->push_back((yyvsp[(1) - (1)].component)); ;}
+    break;
+
+  case 12:
+#line 98 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+    {
+		(yyval.component) = (Component *)grammar->getSymtab()->addNonterminal((yyvsp[(1) - (1)].str));
 	;}
     break;
 
   case 13:
-#line 70 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 102 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
     {
-		grammar->getSymtab()->addTerminal((yyvsp[(1) - (1)].str));
+		(yyval.component) = (Component *)grammar->getSymtab()->addTerminal((yyvsp[(1) - (1)].str));
 	;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1352 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
+#line 1413 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.cc"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1562,6 +1623,6 @@ yyreturn:
 }
 
 
-#line 75 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
+#line 107 "/Users/robert/Desktop/ll1_analyzer/src/parser/parser.y"
 
 
