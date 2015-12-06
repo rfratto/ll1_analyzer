@@ -22,3 +22,8 @@ Component::Component(std::string name)
 	
 	m_name = name;
 }
+
+Component::~Component()
+{
+	// Do nothing.
+}

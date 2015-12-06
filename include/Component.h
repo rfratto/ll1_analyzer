@@ -28,4 +28,6 @@ public:
 	 * @param name The name of this component.
 	 */
 	Component(std::string name);
+	
+	virtual ~Component();
 };
