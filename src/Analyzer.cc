@@ -13,6 +13,7 @@
 #include <Terminal.h>
 #include <Errors.h>
 #include <Production.h>
+#include <Epsilon.h>
 
 #include <iostream>
 
@@ -55,10 +56,13 @@ bool Analyzer::has_left_recursion()
 	bool had_left_recursion = false;
 	
 	auto prod_sets = m_grammar->getProductions();
+	auto grammar = m_grammar;
 	for (auto pair : prod_sets)
 	{
 		auto nonterm = pair.first;
-		auto cb = [nonterm](Production* prod, DerivationManager& mgr) -> bool
+		DerivationCallback cb = [grammar](Production* prod,
+										  Component* against,
+										  DerivationManager& mgr) -> bool
 		{
 			// If the production has at least one component and its first
 			// component is us, it is directly left-recursive. Otherwise,
@@ -70,12 +74,25 @@ bool Analyzer::has_left_recursion()
 			}
 			
 			auto comp = comps.at(0);
-			if (comp == nonterm)
+			if (comp == against)
 			{
 				return true;
 			}
 			
 			mgr.recurseOn(comp);
+			
+			auto nonterm = dynamic_cast<Nonterminal *>(comp);
+			auto eps = grammar->getSymtab()->getEpsilon();
+			if (nonterm != nullptr && nonterm->derives(grammar, eps) &&
+				comps.size() > 1)
+			{
+				if (comps.at(1) == against)
+				{
+					return true;
+				}
+				
+				mgr.recurseOn(comps.at(1));
+			}
 			
 			return false;
 		};
