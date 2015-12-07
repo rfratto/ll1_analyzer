@@ -9,8 +9,15 @@
 #pragma once 
 
 #include <vector>
+#include <functional>
+
+#include "DerivationManager.h"
 
 class Component;
+class Grammar;
+class Production;
+
+typedef std::function<bool(Production*,DerivationManager&)> DerivationCallback;
 
 class Production
 {
@@ -18,6 +25,12 @@ private:
 	std::vector<Component *> m_components;
 public:
 	std::vector<Component *> getComponents() const;
+	
+	/// Returns whether or not this production derives,
+	/// in some number of transitions, a specific component
+	/// for a given grammar.
+	bool derives(Grammar* grammar, Component* component);
+	bool derives(Grammar* grammar, Component* component, DerivationCallback cb);
 	
 	Production(std::vector<Component *> components);
 };
