@@ -25,6 +25,7 @@ private:
 	bool has_left_recursion();
 public:
 	bool valid();
+	void printFirst();
 	
 	void setThrowExceptions(bool shouldThrow);
 	

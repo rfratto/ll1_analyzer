@@ -136,6 +136,26 @@ bool Analyzer::has_left_recursion()
 	return had_left_recursion;
 }
 
+void Analyzer::printFirst()
+{
+	auto prod_set = m_grammar->getProductions();
+	for (auto pair : prod_set)
+	{
+		auto first = pair.first->getFirst();
+		std::cout << "FIRST(" << pair.first->getName() << ") = {";
+		for (unsigned int i = 0; i < first.size(); i++)
+		{
+			std::cout << first.at(i)->getName();
+			
+			if (i + 1 < first.size())
+			{
+				std::cout << ", ";
+			}
+		}
+		std::cout << "}\n";
+	}
+}
+
 bool Analyzer::valid()
 {
 	bool has_error = has_undefined() || has_left_recursion();
