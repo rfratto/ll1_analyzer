@@ -17,7 +17,8 @@ class Component;
 class Grammar;
 class Production;
 
-typedef std::function<bool(Production*,DerivationManager&)> DerivationCallback;
+typedef std::function<bool(Production*,Component*,DerivationManager&)>
+	DerivationCallback;
 
 class Production
 {

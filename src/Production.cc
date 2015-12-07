@@ -25,7 +25,7 @@ bool Production::derives(Grammar *grammar, Component *component,
 	
 	// Call our callback to see if this production
 	// has the derivation we want.
-	if (cb(this, mgr) == true)
+	if (cb(this, component, mgr) == true)
 	{
 		return true;
 	}
@@ -52,7 +52,7 @@ bool Production::derives(Grammar *grammar, Component *component,
 			searched.push_back(prod);
 			
 			// Do a recursive search on that production.
-			if (cb(prod, mgr) == true)
+			if (cb(prod, component, mgr) == true)
 			{
 				return true;
 			}
@@ -64,7 +64,8 @@ bool Production::derives(Grammar *grammar, Component *component,
 
 bool Production::derives(Grammar *grammar, Component *component)
 {
-	auto cb = [component](Production* prod, DerivationManager& mgr) -> bool
+	auto cb = [](Production* prod, Component* component,
+						  DerivationManager& mgr) -> bool
 	{
 		auto comps = prod->getComponents();
 		for (auto comp : comps)
