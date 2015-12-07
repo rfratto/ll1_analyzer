@@ -21,9 +21,9 @@ public:
 	std::vector<Production *> getReferences() const;
 	
 	/// Checks all productions of this non terminal to see if they derive
-	/// a certain component.
-	bool derives(Grammar* grammar, Component* component);
-	bool derives(Grammar* grammar, Component* component, DerivationCallback cb);
+	/// a certain component. Returns the component that is housing it if it exists.
+	Component* derives(Grammar* grammar, Component* component);
+	Component* derives(Grammar* grammar, Component* component, DerivationCallback cb);
 	
 	void addReference(Production* reference);
 	

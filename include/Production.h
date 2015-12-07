@@ -27,11 +27,10 @@ private:
 public:
 	std::vector<Component *> getComponents() const;
 	
-	/// Returns whether or not this production derives,
-	/// in some number of transitions, a specific component
-	/// for a given grammar.
-	bool derives(Grammar* grammar, Component* component);
-	bool derives(Grammar* grammar, Component* component, DerivationCallback cb);
+	/// Returns the component where a derivation exists from this
+	/// production, in some number of transitions, to a specific component.
+	Component* derives(Grammar* grammar, Component* component);
+	Component* derives(Grammar* grammar, Component* component, DerivationCallback cb);
 	
 	Production(std::vector<Component *> components);
 };

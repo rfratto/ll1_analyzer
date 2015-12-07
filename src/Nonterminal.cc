@@ -19,33 +19,35 @@ void Nonterminal::addReference(Production *reference)
 	m_references.push_back(reference);
 }
 
-bool Nonterminal::derives(Grammar *grammar, Component *component)
+Component* Nonterminal::derives(Grammar *grammar, Component *component)
 {
 	auto prods = grammar->getProductions(this);
 	for (auto prod : prods)
 	{
-		if (prod->derives(grammar, component) == true)
+		auto ret = prod->derives(grammar, component);
+		if (ret != nullptr)
 		{
-			return true;
+			return ret;
 		}
 	}
 	
-	return false;
+	return nullptr;
 }
 
-bool Nonterminal::derives(Grammar *grammar, Component *component,
-						  DerivationCallback cb)
+Component* Nonterminal::derives(Grammar *grammar, Component *component,
+								DerivationCallback cb)
 {
 	auto prods = grammar->getProductions(this);
 	for (auto prod : prods)
 	{
-		if (prod->derives(grammar, component, cb) == true)
+		auto ret = prod->derives(grammar, component, cb);
+		if (ret != nullptr)
 		{
-			return true;
+			return ret;
 		}
 	}
 	
-	return false;
+	return nullptr;
 }
 
 Nonterminal::Nonterminal(std::string name)

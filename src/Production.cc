@@ -15,8 +15,8 @@ std::vector<Component *> Production::getComponents() const
 	return m_components;
 }
 
-bool Production::derives(Grammar *grammar, Component *component,
-						 DerivationCallback cb)
+Component* Production::derives(Grammar *grammar, Component *component,
+							   DerivationCallback cb)
 {
 	DerivationManager mgr;
 	
@@ -27,7 +27,7 @@ bool Production::derives(Grammar *grammar, Component *component,
 	// has the derivation we want.
 	if (cb(this, component, mgr) == true)
 	{
-		return true;
+		return component;
 	}
 
 	// If it didn't return true, use our DerivationManager
@@ -54,15 +54,15 @@ bool Production::derives(Grammar *grammar, Component *component,
 			// Do a recursive search on that production.
 			if (cb(prod, component, mgr) == true)
 			{
-				return true;
+				return nonterm;
 			}
 		}
 	}
 	
-	return false;
+	return nullptr;
 }
 
-bool Production::derives(Grammar *grammar, Component *component)
+Component* Production::derives(Grammar *grammar, Component *component)
 {
 	auto cb = [](Production* prod, Component* component,
 						  DerivationManager& mgr) -> bool
