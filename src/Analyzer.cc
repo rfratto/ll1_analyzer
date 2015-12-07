@@ -11,6 +11,7 @@
 #include <Symtab.h>
 #include <Nonterminal.h>
 #include <Terminal.h>
+#include <Errors.h>
 
 #include <iostream>
 
@@ -25,9 +26,16 @@ bool Analyzer::has_undefined()
 	{
 		if (m_grammar->hasProductions(nonterm) == false)
 		{
-			std::cerr << "error: nonterminal " << nonterm->getName() << " "
-			<< "used but has no production rules\n";
-			had_undefined = true;
+			if (m_throw)
+			{
+				throw undefined_error(nonterm);
+			}
+			else
+			{
+				std::cerr << "error: nonterminal " << nonterm->getName() << " "
+    			          << "used but has no production rules\n";
+    			had_undefined = true;
+			}
 		}
 		
 		if (nonterm->getReferences().size() == 0 &&
@@ -45,6 +53,11 @@ bool Analyzer::valid()
 {
 	bool has_error = has_undefined();
 	return has_error == false;
+}
+
+void Analyzer::setThrowExceptions(bool shouldThrow)
+{
+	m_throw = shouldThrow;
 }
 
 Analyzer::Analyzer(Grammar *g)

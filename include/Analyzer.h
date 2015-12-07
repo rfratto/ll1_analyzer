@@ -20,8 +20,12 @@ private:
 	Grammar* m_grammar;
  
  	bool has_undefined();
+	
+	bool m_throw = false;
 public:
 	bool valid();
+	
+	void setThrowExceptions(bool shouldThrow);
 	
 	Analyzer(Grammar* g);
 };
