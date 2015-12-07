@@ -8,11 +8,13 @@
 cmake_minimum_required(VERSION 2.8.7)
 project(ll1_analyzer)
 
+enable_testing()
+
 if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
    message(FATAL_ERROR "In-source builds are not allowed.")
 endif()
 
-# Add flags 
+# Add flags
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
 elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
@@ -37,6 +39,9 @@ endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 aux_source_directory(${CMAKE_SOURCE_DIR}/src SOURCES)
+aux_source_directory(${CMAKE_SOURCE_DIR}/src SOURCES_NO_MAIN)
+list(REMOVE_ITEM SOURCES_NO_MAIN ${CMAKE_SOURCE_DIR}/src/main.cc)
+message(status ${SOURCES_NO_MAIN})
 
 file(GLOB INCLUDES "${CMAKE_SOURCE_DIR}/include/*.h")
 
@@ -54,4 +59,18 @@ source_group(include FILES ${INCLUDES})
 add_executable(ll1_analyzer
 	${SOURCES} ${INCLUDES} ${FLEX_FlexOutput_OUTPUTS}
 	${BISON_BisonOutput_OUTPUTS}
+)
+
+# Add unit test.
+add_executable(unit_test
+    ${CMAKE_SOURCE_DIR}/test/unit_tests.cc
+    ${FLEX_FlexOutput_OUTPUTS}
+    ${BISON_BisonOutput_OUTPUTS}
+    ${SOURCES_NO_MAIN}
+)
+
+add_test(
+    NAME unit_test
+    COMMAND ${CMAKE_BINARY_DIR}/unit_test
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test
 )
