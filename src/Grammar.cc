@@ -9,6 +9,8 @@
 #include <Grammar.h>
 #include <Production.h>
 #include <Nonterminal.h>
+#include <Symtab.h>
+#include <Epsilon.h>
 
 Symtab* Grammar::getSymtab() const
 {
@@ -84,6 +86,53 @@ void Grammar::addProduction(Nonterminal *nonterminal, Production *production)
 Nonterminal* Grammar::getStart() const
 {
 	return m_start;
+}
+
+void Grammar::computeFirst(Nonterminal *nonterm)
+{
+	auto it = std::find(m_computed_first.begin(), m_computed_first.end(),
+						nonterm);
+	if (it != m_computed_first.end())
+	{
+		return;
+	}
+	
+	m_computed_first.push_back(nonterm);
+	
+	auto prods = getProductions(nonterm);
+	for (auto prod : prods)
+	{
+		auto components = prod->getComponents();
+		for (unsigned int i = 0; i < components.size(); i++)
+		{
+			auto comp = components.at(i);
+			auto nt_comp = dynamic_cast<Nonterminal *>(comp);
+			
+			if (nt_comp != nullptr)
+			{
+				computeFirst(nt_comp);
+			}
+			
+			// Add FIRST(comp) to FIRST(nonterm)
+			nonterm->appendToFirst(comp);
+			
+			// If FIRST(comp) doesn't contain Epsilon, then
+			// exit the loop.
+			if (comp->hasInFirst(getSymtab()->getEpsilon()) == false)
+			{
+				break;
+			}
+		}
+	}
+}
+
+void Grammar::computeFirst()
+{
+	auto prod_set = getProductions();
+	for (auto pair : prod_set)
+	{
+		computeFirst(pair.first);
+	}
 }
 
 Grammar::Grammar(Symtab* symbolTable)

@@ -28,6 +28,9 @@ private:
 	Symtab* m_symbol_table;
 	
 	Nonterminal* m_start = nullptr;
+	
+	// List of nonterminals that have already been computed.
+	std::vector<Nonterminal *> m_computed_first;
 public:
 	Symtab* getSymtab() const;
 	
@@ -45,6 +48,12 @@ public:
 	
 	/// Gets the start nonterminal (e.g., the first added).
 	Nonterminal* getStart() const;
+	
+	/// Computes FIRST sets for a given nonterminal.
+	void computeFirst(Nonterminal* nonterm);
+	
+	/// Computes FIRST sets for all nonterminals in the production list.
+	void computeFirst();
 	
 	Grammar(Symtab* symbolTable);
 	~Grammar();
