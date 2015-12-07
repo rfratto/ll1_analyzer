@@ -34,6 +34,9 @@ Grammar* parseGrammar(const char* pathname)
 	yyparse(grammar);
 
 	fclose(file);
+	
+	grammar->computeFirst();
+	
 	return grammar;
 }
 
@@ -44,6 +47,7 @@ int expectPass(const char* path)
 	auto grammar = parseGrammar(path);
 
 	Analyzer analyzer(grammar);
+	analyzer.printFirst();
 
 	try
 	{
@@ -72,6 +76,7 @@ int getException(const char* path)
 
 	Analyzer analyzer(grammar);
 	analyzer.setThrowExceptions(true);
+	analyzer.printFirst();
 
 	try
 	{
