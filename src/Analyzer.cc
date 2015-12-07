@@ -64,9 +64,29 @@ bool Analyzer::has_left_recursion()
 										  Component* against,
 										  DerivationManager& mgr) -> bool
 		{
-			// If the production has at least one component and its first
-			// component is us, it is directly left-recursive. Otherwise,
-			// recurse on that first component.
+			auto first_cb = [](Production* prod,
+							   Component* against,
+							   DerivationManager& mgr) -> bool
+			{
+				// If the production has at least one component and its first
+				// component is us, it is directly left-recursive. Otherwise,
+				// recurse on that first component.
+				auto comps = prod->getComponents();
+				if (comps.size() == 0)
+				{
+					return false;
+				}
+				
+				auto comp = comps.at(0);
+				if (comp == against)
+				{
+					return true;
+				}
+				
+				mgr.recurseOn(comp);
+				return false;
+			};
+			
 			auto comps = prod->getComponents();
 			if (comps.size() == 0)
 			{
@@ -74,17 +94,16 @@ bool Analyzer::has_left_recursion()
 			}
 			
 			auto comp = comps.at(0);
-			if (comp == against)
+	
+			if (first_cb(prod, against, mgr) == true)
 			{
 				return true;
 			}
 			
-			mgr.recurseOn(comp);
-			
 			auto nonterm = dynamic_cast<Nonterminal *>(comp);
 			auto eps = grammar->getSymtab()->getEpsilon();
-			if (nonterm != nullptr && nonterm->derives(grammar, eps) &&
-				comps.size() > 1)
+			if (nonterm != nullptr && nonterm->derives(grammar, eps, first_cb)
+				&& comps.size() > 1)
 			{
 				if (comps.at(1) == against)
 				{
