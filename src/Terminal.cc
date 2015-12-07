@@ -11,5 +11,6 @@
 Terminal::Terminal(std::string name)
 : Component(name)
 {
-	// Do nothing.
+	// Add self to first.
+	addToFirst(this);
 }
