@@ -8,6 +8,20 @@ It will detect instances of:
 - FIRST/FIRST conflicts (not done)
 - FIRST/FOLLOW conflicts (not done)
 
+## Building
+
+Building requires CMake (minimum version 2.8.7) and should work on OS X,
+Linux, and Windows.
+
+```
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+```   
+
+This produces a binary called `ll1_analyzer` in the build folder.
+
 ## Using
 
 `$ ll1_analyzer [grammar file]`
