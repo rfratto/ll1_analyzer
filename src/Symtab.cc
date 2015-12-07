@@ -10,6 +10,7 @@
 #include <Component.h>
 #include <Terminal.h>
 #include <Nonterminal.h>
+#include <Epsilon.h>
 
 std::vector<Component *> Symtab::getComponents() const
 {
@@ -50,6 +51,10 @@ std::vector<Nonterminal *> Symtab::getNonterminals() const
 	return nontermlist;
 }
 
+Epsilon* Symtab::getEpsilon() const
+{
+	return dynamic_cast<Epsilon *>(getComponent("$"));
+}
 
 Component* Symtab::getComponent(std::string name) const
 {
@@ -107,7 +112,7 @@ Nonterminal* Symtab::addNonterminal(std::string name)
 
 Symtab::Symtab()
 {
-	// Do nothing.
+	m_components.push_back(new Epsilon());
 }
 
 Symtab::~Symtab()

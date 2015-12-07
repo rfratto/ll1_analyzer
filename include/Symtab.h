@@ -13,6 +13,7 @@
 class Component;
 class Terminal;
 class Nonterminal;
+class Epsilon;
 
 /**
  * The symbol table contains a list of components that can be looked 
@@ -32,6 +33,9 @@ public:
 	
 	/// Gets all terminals in the symbol table.
 	std::vector<Nonterminal *> getNonterminals() const;
+	
+	/// Gets epsilon.
+	Epsilon* getEpsilon() const;
 	
 	/// Gets a component by a given name, if one exists.
 	Component* getComponent(std::string name) const;
