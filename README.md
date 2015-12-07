@@ -4,9 +4,9 @@ ll1_analyzer is a program that accepts a .y BNF bison-like grammar file and
 determines if the grammar is LL(1) or not.
 
 It will detect instances of:
-- Left recursion
-- FIRST/FIRST conflicts
-- FIRST/FOLLOW conflicts
+- Left recursion (done)
+- FIRST/FIRST conflicts (not done)
+- FIRST/FOLLOW conflicts (not done)
 
 ## Using
 
