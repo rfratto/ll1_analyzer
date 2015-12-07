@@ -9,7 +9,7 @@
 #include <Epsilon.h>
 
 Epsilon::Epsilon()
-: Component("$")
+: Terminal("$")
 {
 	// Do nothing.
 }

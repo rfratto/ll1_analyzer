@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "Component.h"
+#include "Terminal.h"
 
-class Epsilon : public Component
+class Epsilon : public Terminal
 {
 public:
 	Epsilon();
