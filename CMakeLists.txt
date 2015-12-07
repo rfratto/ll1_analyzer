@@ -41,7 +41,6 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 aux_source_directory(${CMAKE_SOURCE_DIR}/src SOURCES)
 aux_source_directory(${CMAKE_SOURCE_DIR}/src SOURCES_NO_MAIN)
 list(REMOVE_ITEM SOURCES_NO_MAIN ${CMAKE_SOURCE_DIR}/src/main.cc)
-message(status ${SOURCES_NO_MAIN})
 
 file(GLOB INCLUDES "${CMAKE_SOURCE_DIR}/include/*.h")
 
