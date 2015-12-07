@@ -52,6 +52,8 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	
+	grammar->computeFirst();
+	
 	Analyzer analyzer(grammar);
 	if (analyzer.valid() == false)
 	{
