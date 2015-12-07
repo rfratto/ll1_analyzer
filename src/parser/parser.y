@@ -86,7 +86,11 @@ rule_list
 /* A rule is a string of nonterminals and terminals or a single epsilon */
 rule
 	: rule_composition { $$ = $1; }
-	| EPSILON { $$ = new std::vector<Component* >(); }
+	| EPSILON
+	{
+		$$ = new std::vector<Component* >();
+		$$->push_back(grammar->getSymtab()->getComponent("$"));
+	}
 	;
 
 rule_composition
