@@ -12,6 +12,7 @@
 #include <Nonterminal.h>
 #include <Terminal.h>
 #include <Errors.h>
+#include <Production.h>
 
 #include <iostream>
 
@@ -49,9 +50,57 @@ bool Analyzer::has_undefined()
 	return had_undefined;
 }
 
+bool Analyzer::has_left_recursion()
+{
+	bool had_left_recursion = false;
+	
+	auto prod_sets = m_grammar->getProductions();
+	for (auto pair : prod_sets)
+	{
+		auto nonterm = pair.first;
+		auto cb = [nonterm](Production* prod, DerivationManager& mgr) -> bool
+		{
+			// If the production has at least one component and its first
+			// component is us, it is directly left-recursive. Otherwise,
+			// recurse on that first component.
+			auto comps = prod->getComponents();
+			if (comps.size() == 0)
+			{
+				return false;
+			}
+			
+			auto comp = comps.at(0);
+			if (comp == nonterm)
+			{
+				return true;
+			}
+			
+			mgr.recurseOn(comp);
+			
+			return false;
+		};
+		
+		if (nonterm->derives(m_grammar, nonterm, cb))
+		{
+			if (m_throw)
+			{
+				throw left_recursion_error(pair.first);
+			}
+			else
+			{
+				std::cerr << "error: nonterminal " << nonterm->getName() << " "
+						  << "is left recursive.\n";
+				had_left_recursion = true;
+			}
+		}
+	}
+	
+	return had_left_recursion;
+}
+
 bool Analyzer::valid()
 {
-	bool has_error = has_undefined();
+	bool has_error = has_undefined() || has_left_recursion();
 	return has_error == false;
 }
 

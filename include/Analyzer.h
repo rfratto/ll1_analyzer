@@ -19,9 +19,10 @@ class Analyzer
 private:
 	Grammar* m_grammar;
  
- 	bool has_undefined();
-	
 	bool m_throw = false;
+	
+ 	bool has_undefined();
+	bool has_left_recursion();
 public:
 	bool valid();
 	
