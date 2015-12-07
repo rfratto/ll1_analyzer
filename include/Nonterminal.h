@@ -9,10 +9,9 @@
 #pragma once
 
 #include "Component.h"
+#include "Production.h"
 
 #include <vector>
-
-class Production;
 
 class Nonterminal : public Component
 {
@@ -20,6 +19,11 @@ private:
 	std::vector<Production *> m_references;
 public:
 	std::vector<Production *> getReferences() const;
+	
+	/// Checks all productions of this non terminal to see if they derive
+	/// a certain component.
+	bool derives(Grammar* grammar, Component* component);
+	bool derives(Grammar* grammar, Component* component, DerivationCallback cb);
 	
 	void addReference(Production* reference);
 	

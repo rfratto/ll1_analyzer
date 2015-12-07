@@ -7,6 +7,7 @@
 */
 
 #include <Nonterminal.h>
+#include <Grammar.h>
 
 std::vector<Production *> Nonterminal::getReferences() const
 {
@@ -16,6 +17,35 @@ std::vector<Production *> Nonterminal::getReferences() const
 void Nonterminal::addReference(Production *reference)
 {
 	m_references.push_back(reference);
+}
+
+bool Nonterminal::derives(Grammar *grammar, Component *component)
+{
+	auto prods = grammar->getProductions(this);
+	for (auto prod : prods)
+	{
+		if (prod->derives(grammar, component) == true)
+		{
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+bool Nonterminal::derives(Grammar *grammar, Component *component,
+						  DerivationCallback cb)
+{
+	auto prods = grammar->getProductions(this);
+	for (auto prod : prods)
+	{
+		if (prod->derives(grammar, component, cb) == true)
+		{
+			return true;
+		}
+	}
+	
+	return false;
 }
 
 Nonterminal::Nonterminal(std::string name)
