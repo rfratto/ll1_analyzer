@@ -23,6 +23,36 @@ Component::Component(std::string name)
 	m_name = name;
 }
 
+std::vector<Terminal *> Component::getFirst() const
+{
+	return m_first;
+}
+
+bool Component::hasInFirst(Terminal *terminal) const
+{
+	auto it = std::find(m_first.begin(), m_first.end(), terminal);
+	return it != m_first.end();
+}
+
+void Component::addToFirst(Terminal *terminal)
+{
+	if (hasInFirst(terminal))
+	{
+		return;
+	}
+	
+	m_first.push_back(terminal);
+}
+
+void Component::appendToFirst(Component *component)
+{
+	auto component_first = component->getFirst();
+	for (auto first : component_first)
+	{
+		addToFirst(first);
+	}
+}
+
 Component::~Component()
 {
 	// Do nothing.

@@ -9,6 +9,9 @@
 #pragma once
 
 #include <string>
+#include <vector>
+
+class Terminal;
 
 /**
  * Component is a base class for a symbol that is either a 
@@ -18,9 +21,23 @@ class Component
 {
 private:
 	std::string m_name;
+	
+	std::vector<Terminal *> m_first;
 public:
 	/// Gets the name assigned to this component.
 	std::string getName() const;
+	
+	std::vector<Terminal* > getFirst() const;
+	
+	/// Determines if a terminal already exists in first.
+	bool hasInFirst(Terminal* terminal) const;
+	
+	/// Adds a terminal to FIRST, if it didn't already exist.
+	void addToFirst(Terminal* terminal);
+	
+	/// Appends FIRST(component) to FIRST for elements FIRST(this)
+	/// doesn't already have.
+	void appendToFirst(Component* component);
 
 	/**
 	 * Creates a new Component with a given name. The name must not be
