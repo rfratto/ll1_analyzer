@@ -16,11 +16,12 @@ const char* base_error::what() const noexcept
 	return m_error.c_str();
 }
 
-left_recursion_error::left_recursion_error(Component* component)
+left_recursion_error::left_recursion_error(Component* component,
+										   Component* from)
 {
 	std::stringstream ss;
 	ss << "error: nonterminal " << component->getName()
-	   << " is left-recursive";
+	   << " is left-recursive (from " << from->getName() << ")";
 	m_error = ss.str();
 }
 

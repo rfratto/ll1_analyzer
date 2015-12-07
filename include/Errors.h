@@ -24,7 +24,7 @@ public:
 class left_recursion_error : public base_error
 {
 public:
-	left_recursion_error(Component* component);
+	left_recursion_error(Component* component, Component* from);
 };
 
 class undefined_error : public base_error

@@ -116,16 +116,18 @@ bool Analyzer::has_left_recursion()
 			return false;
 		};
 		
-		if (nonterm->derives(m_grammar, nonterm, cb))
+		auto derivative = nonterm->derives(m_grammar, nonterm, cb);
+		if (derivative != nullptr)
 		{
 			if (m_throw)
 			{
-				throw left_recursion_error(pair.first);
+				throw left_recursion_error(pair.first, derivative);
 			}
 			else
 			{
 				std::cerr << "error: nonterminal " << nonterm->getName() << " "
-						  << "is left recursive.\n";
+						  << "is left recursive (from "
+						  << derivative->getName() << ").\n";
 				had_left_recursion = true;
 			}
 		}
