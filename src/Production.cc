@@ -1,5 +1,5 @@
 /*
-** Copyright 2015 Robert Fratto. See the LICENSE.txt file at the top-level
+** Copyright 2015-2016 Robert Fratto. See the LICENSE.txt file at the top-level
 ** directory of this distribution.
 **
 ** Licensed under the MIT license <http://opensource.org/licenses/MIT>. This file
@@ -9,6 +9,7 @@
 #include <Production.h>
 #include <Nonterminal.h>
 #include <Grammar.h>
+#include <algorithm>
 
 std::vector<Component *> Production::getComponents() const
 {

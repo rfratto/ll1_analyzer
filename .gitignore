@@ -7,4 +7,5 @@ Makefile
 .DS_Store
 /build
 /build*
+/.idea
 *.swp

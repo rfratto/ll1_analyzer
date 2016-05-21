@@ -1,10 +1,11 @@
 /*
-** Copyright 2015 Robert Fratto. See the LICENSE.txt file at the top-level
+** Copyright 2015-2016 Robert Fratto. See the LICENSE.txt file at the top-level
 ** directory of this distribution.
 **
 ** Licensed under the MIT license <http://opensource.org/licenses/MIT>. This file
 ** may not be copied, modified, or distributed except according to those terms.
 */
+
 #include <iostream>
 #include <fstream>
 #include <Grammar.h>
@@ -13,15 +14,15 @@
 #include <Terminal.h>
 #include <Analyzer.h>
 
+extern FILE* yyin;
+extern int yyparse(Grammar*);
+extern void yyflushbuffer();
+
 Grammar* parseGrammar(const char* pathname)
 {
 	auto symtab = new Symtab();
 	auto grammar = new Grammar(symtab);
-	
-	extern FILE* yyin;
-	extern int yyparse(Grammar*);
-	extern void yyflushbuffer();
-	
+
 	auto file = fopen(pathname, "r");
 	if (file == nullptr)
 	{

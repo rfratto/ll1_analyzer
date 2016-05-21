@@ -13,14 +13,14 @@
 
 #include <iostream>
 
+extern FILE* yyin;
+extern int yyparse(Grammar*);
+extern void yyflushbuffer();
+
 Grammar* parseGrammar(const char* pathname)
 {
 	auto symtab = new Symtab();
 	auto grammar = new Grammar(symtab);
-
-	extern FILE* yyin;
-	extern int yyparse(Grammar*);
-	extern void yyflushbuffer();
 
 	auto file = fopen(pathname, "r");
 	if (file == nullptr)

@@ -1,5 +1,5 @@
 ##
-## Copyright 2014-2015 Robert Fratto. See the LICENSE.txt file at the top-level
+## Copyright 2015-2016 Robert Fratto. See the LICENSE.txt file at the top-level
 ## directory of this distribution.
 ##
 ## Licensed under the MIT license <http://opensource.org/licenses/MIT>. This file
@@ -14,24 +14,15 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
    message(FATAL_ERROR "In-source builds are not allowed.")
 endif()
 
-# Add flags
-if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
-elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
-	else()
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-endif()
-
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wno-deprecated-register")
 
-find_package(BISON)
+find_package(BISON REQUIRED)
 if (${BISON_FOUND})
     bison_target(BisonOutput ${CMAKE_SOURCE_DIR}/src/parser/parser.y
         ${CMAKE_SOURCE_DIR}/src/parser/parser.cc)
 endif()
 
-find_package(FLEX)
+find_package(FLEX REQUIRED)
 if (${FLEX_FOUND})
     flex_target(FlexOutput ${CMAKE_SOURCE_DIR}/src/parser/lexer.l
     ${CMAKE_SOURCE_DIR}/src/parser/lexer.cc)
@@ -68,8 +59,13 @@ add_executable(unit_test
     ${SOURCES_NO_MAIN}
 )
 
+message(STATUS ${SOURCES_NO_MAIN})
+
 add_test(
     NAME unit_test
     COMMAND ${CMAKE_BINARY_DIR}/unit_test
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test
 )
+
+target_compile_features(ll1_analyzer PRIVATE cxx_range_for)
+target_compile_features(unit_test PRIVATE cxx_range_for)
