@@ -23,9 +23,10 @@ Any number of terminals can then be declared on that line, delimited by spaces:
 Terminals may be alphanumeric and contain underscores, however the first
 character in the terminal must always be an alphabetical letter.
 
-Terminals must be declared at the top of your file before your productions.
-Some constants also work as terminals: any numeric value or a string wrapped
-in double quotes will be interpreted as a terminal.
+Terminals can be declared at anywhere in your file before your productions, but
+it is best practice to declare them at the top before your grammar. Some constants
+also work as terminals: any numeric value or a string wrapped in double quotes
+will be interpreted as a terminal.
 
 ## Production Rules
 
