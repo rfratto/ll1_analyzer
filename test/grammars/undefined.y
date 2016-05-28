@@ -1,3 +1,0 @@
-start:
-	undefined_nonterminal
-	;
