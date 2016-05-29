@@ -7,18 +7,15 @@
 //
 
 #include <stdexcept>
-
-#include <ast/ast.h>
 #include <ast/walker.h>
-#include <ast/visitor.h>
 
 using namespace ast;
 
 template <typename T>
-static T* as(Symbol* obj) { return dynamic_cast<T*>(obj); }
+static T* as(Symbol* s) { return dynamic_cast<T*>(s); }
 
 template <typename T>
-static bool isA(Symbol* obj) { return as<T>(obj) != nullptr; }
+static bool isA(Symbol* s) { return as<T>(s) != nullptr; }
 
 void Walker::WalkSymbol(Visitor* visitor, Symbol* symbol) {
 	if (isA<Nonterminal>(symbol)) {
@@ -28,40 +25,9 @@ void Walker::WalkSymbol(Visitor* visitor, Symbol* symbol) {
 	} else if (isA<Epsilon>(symbol)) {
 		WalkEpsilon(visitor, as<Epsilon>(symbol));
 	} else {
-		throw std::runtime_error("Unknown symbol class.");
+		throw std::runtime_error("Unknown concrete symbol class");
 	}
 }
 
-void Walker::WalkNonterminal(Visitor* visitor, Nonterminal* symbol) {
-	visitor->VisitNonterminal(symbol);
-}
 
-void Walker::WalkTerminal(Visitor* visitor, Terminal* symbol) {
-	visitor->VisitTerminal(symbol);
-}
 
-void Walker::WalkEpsilon(Visitor* visitor, Epsilon* symbol) {
-	visitor->VisitEpsilon(symbol);
-}
-
-void Walker::WalkProduction(Visitor* visitor, Production* production) {
-	visitor->VisitProduction(production);
-
-	WalkNonterminal(visitor, production->nonterminal);
-
-	for (auto symbol : production->symbols) {
-		WalkSymbol(visitor, symbol);
-	}
-}
-
-void Walker::WalkGrammar(Visitor* visitor, Grammar* grammar) {
-	visitor->VisitGrammar(grammar);
-
-	for (auto terminal : grammar->terminals) {
-		WalkTerminal(visitor, terminal);
-	}
-
-	for (auto prod : grammar->productions) {
-		WalkProduction(visitor, prod);
-	}
-}

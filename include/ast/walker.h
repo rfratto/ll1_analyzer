@@ -16,14 +16,42 @@ namespace ast {
 
 	class Walker {
 	public:
-		/// Dispatches into the correct walk method, does not call
-		/// anything on visitor directly.
+		/// Dispatches into the concrete walk method.
 		void WalkSymbol(Visitor* visitor, Symbol* symbol);
 
-		void WalkNonterminal(Visitor* visitor, Nonterminal* symbol);
-		void WalkTerminal(Visitor* visitor, Terminal* symbol);
-		void WalkEpsilon(Visitor* visitor, Epsilon* symbol);
-		void WalkProduction(Visitor* visitor, Production* production);
-		void WalkGrammar(Visitor* visitor, Grammar* grammar);
+		virtual void WalkNonterminal(Visitor* visitor, Nonterminal* symbol) = 0;
+		virtual void WalkTerminal(Visitor* visitor, Terminal* symbol) = 0;
+		virtual void WalkEpsilon(Visitor* visitor, Epsilon* symbol) = 0;
+		virtual void WalkProduction(Visitor* visitor, Production* production) = 0;
+		virtual void WalkGrammar(Visitor* visitor, Grammar* grammar) = 0;
+	};
+
+	/// NonTraversalWalk will visit each concrete element, but not walk any members.
+	/// Further traversal is up to the visitor.
+	class NonTraversalWalk : public Walker {
+	public:
+		virtual void WalkNonterminal(Visitor* visitor, Nonterminal* symbol) override;
+		virtual void WalkTerminal(Visitor* visitor, Terminal* symbol) override;
+		virtual void WalkEpsilon(Visitor* visitor, Epsilon* symbol) override;
+		virtual void WalkProduction(Visitor* visitor, Production* production) override;
+		virtual void WalkGrammar(Visitor* visitor, Grammar* grammar) override;
+	};
+
+	enum TraversalOrder {
+		PREORDER,
+		POSTORDER
+	};
+
+	class DepthFirstWalk : public Walker {
+	private:
+		TraversalOrder mOrder;
+	public:
+		virtual void WalkNonterminal(Visitor* visitor, Nonterminal* symbol) override;
+		virtual void WalkTerminal(Visitor* visitor, Terminal* symbol) override;
+		virtual void WalkEpsilon(Visitor* visitor, Epsilon* symbol) override;
+		virtual void WalkProduction(Visitor* visitor, Production* production) override;
+		virtual void WalkGrammar(Visitor* visitor, Grammar* grammar) override;
+
+		DepthFirstWalk(TraversalOrder o) : mOrder(o) { }
 	};
 }
