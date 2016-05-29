@@ -65,8 +65,8 @@ Here's an simple example grammar of a calculator:
 
 start: E
 
-E: T + E | T ;
-T: F * T | F ;
+E: T "+" E | T ;
+T: F "*" T | F ;
 F: "(" E ")" | NUMBER ;
 ```
 
