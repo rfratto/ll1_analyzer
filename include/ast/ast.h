@@ -13,7 +13,7 @@
 
 namespace ast {
 	struct Symbol {
-		virtual ~Symbol() {}
+		virtual ~Symbol() { }
 	};
 
 	struct Nonterminal : Symbol {

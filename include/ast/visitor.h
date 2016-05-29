@@ -26,9 +26,13 @@ namespace ast {
 	class EmptyVisitor : public Visitor {
 	public:
 		virtual void VisitNonterminal(Nonterminal* symbol) override { };
+
 		virtual void VisitTerminal(Terminal* symbol) override { };
+
 		virtual void VisitEpsilon(Epsilon* symbol) override { };
+
 		virtual void VisitProduction(Production* production) override { };
+
 		virtual void VisitGrammar(Grammar* grammar) override { };
 	};
 }
