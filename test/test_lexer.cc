@@ -50,3 +50,45 @@ namespace BasicTests {
 	TEST_TOKEN(Lexer, LexesConstant, "\"01234\\\"FOOBAR\\\"5678\"",
 	           Token(TokenType::CONSTANT, "01234\\\"FOOBAR\\\"5678"));
 }
+
+TEST(Lexer, LexesStream) {
+	using namespace ast;
+
+	std::stringstream ss(R"(
+		%token %epsilon HELLO_WORLD1234
+"const string""const"
+			"const!?@";;||;| | ;
+	)");
+
+	Lexer l(ss);
+
+	std::vector<TokenType> expects = {
+		TOKEN, EPSILON, IDENTIFER, CONSTANT, CONSTANT, CONSTANT,
+		SEMICOLON, SEMICOLON, BAR, BAR, SEMICOLON, BAR,
+	    BAR, SEMICOLON
+	};
+
+	while (expects.size() > 0) {
+		auto token = expects.front();
+		expectToken(l, token);
+
+		expects.erase(expects.begin());
+	}
+}
+
+TEST(Lexer, ThrowsExceptionOnBadToken) {
+	std::vector<std::string> badInputs = {
+		"%tokenbad", "@", "!", "?"
+	};
+
+	while (badInputs.size() > 0) {
+		auto input = badInputs.back();
+
+		std::stringstream ss(input);
+		ast::Lexer l(ss);
+
+		EXPECT_THROW(l.readToken(), std::runtime_error);
+
+		badInputs.pop_back();
+	}
+}
