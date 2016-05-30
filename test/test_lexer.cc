@@ -25,6 +25,15 @@ namespace BasicTests {
 		EXPECT_EQ(l.readToken(), nullptr);
 	}
 
+	TEST(Lexer, LexesWhiteSpace) {
+		std::stringstream ss("                 \
+			                     ");
+		Lexer l(ss);
+
+		EXPECT_FALSE(l.eof());
+		EXPECT_EQ(l.readToken(), nullptr);
+	}
+
 	TEST_TOKEN(Lexer, LexesToken, "%token", TokenType::TOKEN);
 
 	TEST_TOKEN(Lexer, LexesColon, ":", TokenType::COLON);

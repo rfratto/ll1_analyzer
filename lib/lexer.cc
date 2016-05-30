@@ -167,6 +167,7 @@ Token* Lexer::readToken() {
 	mStream.seekg(pos, mStream.beg);
 	if (auto tok = readConstant()) return tok;
 
+	if (eof()) return nullptr;
 	throw std::runtime_error("Unknown token " + peekChar<std::string>(mStream));
 }
 
