@@ -25,23 +25,19 @@ namespace BasicTests {
 		EXPECT_EQ(l.readToken(), nullptr);
 	}
 
-	TEST_TOKEN(LexerTokenTy, Token, "%token", TokenType::TOKEN);
+	TEST_TOKEN(Lexer, LexesToken, "%token", TokenType::TOKEN);
 
-	TEST_TOKEN(LexerTokenTy, Colon, ":", TokenType::COLON);
+	TEST_TOKEN(Lexer, LexesColon, ":", TokenType::COLON);
 
-	TEST_TOKEN(LexerTokenTy, Bar, "|", TokenType::BAR);
+	TEST_TOKEN(Lexer, LexesBar, "|", TokenType::BAR);
 
-	TEST_TOKEN(LexerTokenTy, Epsilon, "%epsilon", TokenType::EPSILON);
+	TEST_TOKEN(Lexer, LexesEpsilon, "%epsilon", TokenType::EPSILON);
 
-	TEST_TOKEN(LexerTokenTy, Semicolon, ";", TokenType::SEMICOLON);
+	TEST_TOKEN(Lexer, LexesSemicolon, ";", TokenType::SEMICOLON);
 
-	TEST_TOKEN(LexerTokenTy, Identifier, "hello_w0rld", TokenType::IDENTIFER);
+	TEST_TOKEN(Lexer, LexesIdentifier, "hello_w0rld",
+	           Token(TokenType::IDENTIFER, "hello_w0rld"));
 
-	TEST_TOKEN(LexerTokenTy, Constant, "\"01234\\\"FOOBAR\\\"5678\"", TokenType::CONSTANT);
-
-
-	TEST_TOKEN(LexerTokenVal, Identifier, "hello_w0rld", "hello_w0rld");
-
-	TEST_TOKEN(LexerTokenVal, Constant, "\"01234\\\"FOOBAR\\\"5678\"",
-	               "01234\\\"FOOBAR\\\"5678");
+	TEST_TOKEN(Lexer, LexesConstant, "\"01234\\\"FOOBAR\\\"5678\"",
+	           Token(TokenType::CONSTANT, "01234\\\"FOOBAR\\\"5678"));
 }
