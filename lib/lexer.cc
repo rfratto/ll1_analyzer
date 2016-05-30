@@ -11,29 +11,40 @@
 
 using namespace ast;
 
+
+static char peekChar(std::istream& s) {
+	return std::istream::traits_type::to_char_type(s.peek());
+}
+
+static char getChar(std::istream& s) {
+	return std::istream::traits_type::to_char_type(s.get());
+}
+
+static std::string str(char c) { return std::string(1, c); }
+
 Lexer::Lexer(std::istream &stream) : mStream(stream) { }
 
 void Lexer::consumeComment() {
 	auto pos = mStream.tellg();
 
-	if (mStream.get() != '/') {
+	if (getChar(mStream) != '/') {
 		mStream.seekg(pos, mStream.beg);
 		return;
 	}
 
-	if (mStream.peek() == '/') {
+	if (peekChar(mStream) == '/') {
 		// One-line comment
-		mStream.get();
-		while (!eof() && mStream.peek() != '\n') mStream.get();
-	} else if (mStream.peek() == '*') {
+		getChar(mStream);
+		while (!eof() && peekChar(mStream) != '\n') getChar(mStream);
+	} else if (peekChar(mStream) == '*') {
 		// Block comment
-		mStream.get();
+		getChar(mStream);
 
 		int count = 1;
 
-		int last_char = 0;
+		char last_char = 0;
 		while (!eof() && count > 0) {
-			int this_char = mStream.get();
+			char this_char = getChar(mStream);
 
 			if (last_char == '*' && this_char == '/') count--;
 			if (last_char == '/' && this_char == '*') count++;
@@ -51,41 +62,40 @@ void Lexer::consumeComment() {
 
 
 Token* Lexer::readConstant() {
-	if (mStream.peek() != '"') return nullptr;
-	mStream.get();
+	if (peekChar(mStream) != '"') return nullptr;
+	getChar(mStream);
 
 	std::string buf = "";
 
 	while (!eof()) {
-		int this_char = mStream.get();
+		char this_char = getChar(mStream);
 
 		if (this_char == '"') break;
 		else if (this_char == '\n') {
 			throw std::runtime_error("Unterminated string");
 		} else if (this_char == '\\') { // Escape character
-			buf += this_char;
-			buf += mStream.get();
+			buf += str(this_char) + str(getChar(mStream));
 			continue;
 		}
 
-		buf += this_char;
+		buf += str(this_char);
 	}
 
 	return new Token(TokenType::IDENTIFER, buf);
 }
 
 Token* Lexer::readKeyword() {
-	if (mStream.peek() == ':') {
-		return new Token(TokenType::COLON, "" + mStream.get());
-	} else if (mStream.peek() == '|') {
-		return new Token(TokenType::BAR, "" + mStream.get());
-	} else if (mStream.peek() == ';') {
-		return new Token(TokenType::SEMICOLON, "" + mStream.get());
-	} else if (mStream.peek() == '%') {
-		std::string buf = "" + mStream.get();
+	if (peekChar(mStream) == ':') {
+		return new Token(TokenType::COLON, str(getChar(mStream)));
+	} else if (peekChar(mStream) == '|') {
+		return new Token(TokenType::BAR, str(getChar(mStream)));
+	} else if (peekChar(mStream) == ';') {
+		return new Token(TokenType::SEMICOLON, str(getChar(mStream)));
+	} else if (peekChar(mStream) == '%') {
+		std::string buf = str(getChar(mStream));
 
-		while (!eof() && std::isalpha(mStream.peek())) {
-			buf += mStream.get();
+		while (!eof() && std::isalpha(peekChar(mStream))) {
+			buf += str(getChar(mStream));
 		}
 
 		if (buf == "%token") {
@@ -101,14 +111,14 @@ Token* Lexer::readKeyword() {
 }
 
 Token* Lexer::readIdentifier() {
-	if (!std::isalpha(mStream.peek())) {
+	if (!std::isalpha(peekChar(mStream))) {
 		return nullptr;
 	}
 
-	std::string buf = "" + mStream.get();
+	std::string buf = str(getChar(mStream));
 
-	while (!eof() && (std::isalnum(mStream.peek()) || mStream.peek() == '_')) {
-		buf += mStream.get();
+	while (!eof() && (std::isalnum(peekChar(mStream)) || peekChar(mStream) == '_')) {
+		buf += str(getChar(mStream));
 	}
 
 	return new Token(TokenType::IDENTIFER, buf);
@@ -119,8 +129,8 @@ Token* Lexer::readToken() {
 	if (eof()) return nullptr;
 
 	// Ignore whitespace
-	while (!eof() && isspace(mStream.peek())) {
-		mStream.get();
+	while (!eof() && isspace(peekChar(mStream))) {
+		getChar(mStream);
 	}
 
 	// Consume comments
@@ -135,7 +145,7 @@ Token* Lexer::readToken() {
 	mStream.seekg(pos, mStream.beg);
 	if (auto tok = readConstant()) return tok;
 
-	throw std::runtime_error("Unknown token " + mStream.peek());
+	throw std::runtime_error("Unknown token " + str(peekChar(mStream)));
 }
 
 bool Lexer::eof() const {
