@@ -11,16 +11,38 @@
 
 using namespace ast;
 
+template <typename T = char>
+T peekChar(std::istream& s);
 
-static char peekChar(std::istream& s) {
+template <typename T = char>
+T getChar(std::istream& s);
+
+template <>
+char peekChar(std::istream& s) {
 	return std::istream::traits_type::to_char_type(s.peek());
 }
 
-static char getChar(std::istream& s) {
+template <>
+char getChar(std::istream& s) {
 	return std::istream::traits_type::to_char_type(s.get());
 }
 
-static std::string str(char c) { return std::string(1, c); }
+template <>
+std::string peekChar(std::istream& s) {
+	return std::string(1, peekChar<char>(s));
+}
+
+template <>
+std::string getChar(std::istream& s) {
+	return std::string(1, getChar<char>(s));
+}
+
+template <typename T = char>
+std::string toString(T c);
+
+template <>
+std::string toString(char c) { return std::string(1, c); }
+
 
 Lexer::Lexer(std::istream &stream) : mStream(stream) { }
 
@@ -68,17 +90,17 @@ Token* Lexer::readConstant() {
 	std::string buf = "";
 
 	while (!eof()) {
-		char this_char = getChar(mStream);
+		auto this_char = getChar(mStream);
 
 		if (this_char == '"') break;
 		else if (this_char == '\n') {
 			throw std::runtime_error("Unterminated string");
 		} else if (this_char == '\\') { // Escape character
-			buf += str(this_char) + str(getChar(mStream));
+			buf += toString(this_char) + getChar<std::string>(mStream);
 			continue;
 		}
 
-		buf += str(this_char);
+		buf += toString(this_char);
 	}
 
 	return new Token(TokenType::IDENTIFER, buf);
@@ -86,16 +108,16 @@ Token* Lexer::readConstant() {
 
 Token* Lexer::readKeyword() {
 	if (peekChar(mStream) == ':') {
-		return new Token(TokenType::COLON, str(getChar(mStream)));
+		return new Token(TokenType::COLON, getChar<std::string>(mStream));
 	} else if (peekChar(mStream) == '|') {
-		return new Token(TokenType::BAR, str(getChar(mStream)));
+		return new Token(TokenType::BAR, getChar<std::string>(mStream));
 	} else if (peekChar(mStream) == ';') {
-		return new Token(TokenType::SEMICOLON, str(getChar(mStream)));
+		return new Token(TokenType::SEMICOLON, getChar<std::string>(mStream));
 	} else if (peekChar(mStream) == '%') {
-		std::string buf = str(getChar(mStream));
+		std::string buf = getChar<std::string>(mStream);
 
 		while (!eof() && std::isalpha(peekChar(mStream))) {
-			buf += str(getChar(mStream));
+			buf += getChar<std::string>(mStream);
 		}
 
 		if (buf == "%token") {
@@ -115,10 +137,10 @@ Token* Lexer::readIdentifier() {
 		return nullptr;
 	}
 
-	std::string buf = str(getChar(mStream));
+	std::string buf = getChar<std::string>(mStream);
 
 	while (!eof() && (std::isalnum(peekChar(mStream)) || peekChar(mStream) == '_')) {
-		buf += str(getChar(mStream));
+		buf += getChar<std::string>(mStream);
 	}
 
 	return new Token(TokenType::IDENTIFER, buf);
@@ -145,7 +167,7 @@ Token* Lexer::readToken() {
 	mStream.seekg(pos, mStream.beg);
 	if (auto tok = readConstant()) return tok;
 
-	throw std::runtime_error("Unknown token " + str(peekChar(mStream)));
+	throw std::runtime_error("Unknown token " + peekChar<std::string>(mStream));
 }
 
 bool Lexer::eof() const {
