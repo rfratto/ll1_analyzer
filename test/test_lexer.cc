@@ -6,12 +6,15 @@
 // may not be copied, modified, or distributed except according to those terms.
 //
 
+#include <sstream>
 #include <gtest/gtest.h>
+#include <lexer.h>
 
-TEST(Lexer, FailTest) {
-	EXPECT_EQ(0, 1);
+TEST(Lexer, EmptyInputTest) {
+	std::stringstream ss("");
+	ast::Lexer l(ss);
+
+	EXPECT_TRUE(l.eof());
+	EXPECT_EQ(l.readToken(), nullptr);
 }
 
-TEST(Lexer, PassTest) {
-	EXPECT_EQ(1, 1);
-}

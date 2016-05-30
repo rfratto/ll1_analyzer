@@ -171,5 +171,5 @@ Token* Lexer::readToken() {
 }
 
 bool Lexer::eof() const {
-	return mStream.eof();
+	return mStream.eof() || mStream.peek() == std::istream::traits_type::eof();
 }
