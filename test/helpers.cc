@@ -35,30 +35,43 @@ namespace ast {
 using namespace ast;
 
 template <>
-bool tokensEq(Token* tok, Token to) { return tok->ty == to.ty && tok->value == to.value; }
+bool tokensEq(Token* tok, Token to) { return tok != nullptr && tok->ty == to.ty && tok->value == to.value; }
 
 template <>
-bool tokensEq(Token* tok, TokenType ty) { return tok->ty == ty; }
+bool tokensEq(Token* tok, TokenType ty) { return tok != nullptr && tok->ty == ty; }
 
 template <>
-bool tokensEq(Token* tok, std::string val) { return tok->value == val; }
+bool tokensEq(Token* tok, std::string val) { return tok != nullptr && tok->value == val; }
 
 template <>
-bool tokensEq(Token* tok, const char* val) { return tok->value == val; }
+bool tokensEq(Token* tok, const char* val) { return tok != nullptr && tok->value == val; }
 
 
 template <>
 void expectToken(ast::Lexer& l, Token val) {
 	auto tok = l.readToken();
+	EXPECT_TRUE(tok != nullptr);
 	EXPECT_EQ(tok->ty, val.ty);
 	EXPECT_EQ(tok->value, val.value);
 }
 
 template <>
-void expectToken(ast::Lexer& l, TokenType val) { EXPECT_EQ(l.readToken()->ty, val); }
+void expectToken(ast::Lexer& l, TokenType val) {
+	auto tok = l.readToken();
+	EXPECT_TRUE(tok != nullptr);
+	EXPECT_EQ(tok->ty, val);
+}
 
 template <>
-void expectToken(ast::Lexer& l, std::string val) { EXPECT_EQ(l.readToken()->value, val); }
+void expectToken(ast::Lexer& l, std::string val) {
+	auto tok = l.readToken();
+	EXPECT_TRUE(tok != nullptr);
+	EXPECT_EQ(tok->value, val);
+}
 
 template <>
-void expectToken(ast::Lexer& l, const char* val) { EXPECT_EQ(l.readToken()->value, val); }
+void expectToken(ast::Lexer& l, const char* val) {
+	auto tok = l.readToken();
+	EXPECT_TRUE(tok != nullptr);
+	EXPECT_EQ(tok->value, val);
+}
