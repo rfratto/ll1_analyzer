@@ -26,11 +26,13 @@ add_library(ll1_analyzer_lib include/ast/ast.h include/ast/visitor.h include/ast
 add_executable(ll1_analyzer src/main.cc)
 target_link_libraries(ll1_analyzer ll1_analyzer_lib)
 
-target_compile_features(ll1_analyzer PRIVATE cxx_range_for)
-target_compile_features(ll1_analyzer_lib PRIVATE cxx_range_for)
 
 # Unit tests
 add_executable(unit_tests test/test_lexer.cc)
 target_include_directories(unit_tests PRIVATE lib)
 target_link_libraries(unit_tests gtest gtest_main ll1_analyzer_lib)
 add_test(unit_tests unit_tests)
+
+target_compile_features(ll1_analyzer PRIVATE cxx_range_for)
+target_compile_features(ll1_analyzer_lib PRIVATE cxx_range_for)
+target_compile_features(unit_tests PRIVATE cxx_range_for)
