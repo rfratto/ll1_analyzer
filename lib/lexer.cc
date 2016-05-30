@@ -44,7 +44,7 @@ template <>
 std::string toString(char c) { return std::string(1, c); }
 
 
-Lexer::Lexer(std::istream &stream) : mStream(stream) { }
+Lexer::Lexer(std::istream& stream) : mStream(stream) { }
 
 void Lexer::consumeComment() {
 	auto pos = mStream.tellg();

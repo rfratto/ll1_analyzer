@@ -44,7 +44,7 @@ namespace ast {
 
 	class Lexer {
 	private:
-		std::istream &mStream;
+		std::istream& mStream;
 
 		Token* readKeyword();
 		Token* readIdentifier();
@@ -59,6 +59,6 @@ namespace ast {
 		/// Returns whether or not we're at the end of file.
 		bool eof() const;
 
-		Lexer(std::istream &stream);
+		Lexer(std::istream& stream);
 	};
 }

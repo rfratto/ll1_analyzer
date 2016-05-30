@@ -28,7 +28,7 @@ target_link_libraries(ll1_analyzer ll1_analyzer_lib)
 
 
 # Unit tests
-add_executable(unit_tests test/test_lexer.cc)
+add_executable(unit_tests test/test_lexer.cc test/helpers.h test/helpers.cc)
 target_include_directories(unit_tests PRIVATE lib)
 target_link_libraries(unit_tests gtest gtest_main ll1_analyzer_lib)
 add_test(unit_tests unit_tests)
