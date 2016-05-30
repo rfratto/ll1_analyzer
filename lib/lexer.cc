@@ -125,7 +125,7 @@ Token* Lexer::readKeyword() {
 		} else if (buf == "%epsilon") {
 			return new Token(TokenType::EPSILON, buf);
 		} else {
-			throw new std::runtime_error("Unknown directive " + buf);
+			throw std::runtime_error("Unknown directive " + buf);
 		}
 	}
 
