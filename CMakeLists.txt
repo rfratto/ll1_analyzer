@@ -31,5 +31,6 @@ target_compile_features(ll1_analyzer_lib PRIVATE cxx_range_for)
 
 # Unit tests
 add_executable(unit_tests test/test_lexer.cc)
+target_include_directories(unit_tests PRIVATE lib)
 target_link_libraries(unit_tests gtest gtest_main ll1_analyzer_lib)
 add_test(unit_tests unit_tests)
