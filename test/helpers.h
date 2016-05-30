@@ -22,9 +22,3 @@ void expectToken(ast::Lexer& l, T val);
         std::stringstream ss(input); ast::Lexer l(ss);\
         EXPECT_FALSE(l.eof()); expectToken(l, ty);\
     }
-
-#define TEST_TOKEN_VAL(test_case_name, test_name, input, ty) \
-    TEST(test_case_name, test_name) {\
-        std::stringstream ss(input); ast::Lexer l(ss);\
-        EXPECT_FALSE(l.eof()); expectToken(l, ty);\
-    }

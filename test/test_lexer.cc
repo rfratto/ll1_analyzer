@@ -40,8 +40,8 @@ namespace BasicTests {
 	TEST_TOKEN(LexerTokenTy, Constant, "\"01234\\\"FOOBAR\\\"5678\"", TokenType::CONSTANT);
 
 
-	TEST_TOKEN_VAL(LexerTokenVal, Identifier, "hello_w0rld", "hello_w0rld");
+	TEST_TOKEN(LexerTokenVal, Identifier, "hello_w0rld", "hello_w0rld");
 
-	TEST_TOKEN_VAL(LexerTokenVal, Constant, "\"01234\\\"FOOBAR\\\"5678\"",
+	TEST_TOKEN(LexerTokenVal, Constant, "\"01234\\\"FOOBAR\\\"5678\"",
 	               "01234\\\"FOOBAR\\\"5678");
 }
