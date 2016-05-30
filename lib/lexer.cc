@@ -103,7 +103,7 @@ Token* Lexer::readConstant() {
 		buf += toString(this_char);
 	}
 
-	return new Token(TokenType::IDENTIFER, buf);
+	return new Token(TokenType::CONSTANT, buf);
 }
 
 Token* Lexer::readKeyword() {
